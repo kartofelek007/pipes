@@ -1,0 +1,410 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Cabin+Sketch:wght@400;700&family=Fredericka+the+Great&family=Love+Ya+Like+A+Sister&display=swap');
+
+body {
+    font-family: sans-serif;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.canvas {
+    width: min(90vmin, 800px);
+    display: inline-grid;
+    border-radius: 5px;
+    overflow: hidden;
+    padding: 45px;
+    gap: 3px;
+}
+
+.pipe {
+    max-width: 300px;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    --rotateTime: 0.3s;
+    --rotate: 0;
+    position: relative;
+    cursor: pointer;
+}
+
+.pipe-inside {
+    background-size: cover;
+    aspect-ratio: 1 / 1;
+    border-radius: 4px;
+    transition: var(--rotateTime) transform;
+    transform: rotate(var(--rotate));
+    position: relative;
+}
+
+.pipe-inside::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-image: var(--background);
+    background-size: 100% 100%;
+}
+
+.pipe[data-static] {
+    cursor: default;
+}
+
+.pipe-active-textures {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    mask-size: 100% 100%;
+    -webkit-mask-size: 100% 100%;
+
+}
+
+.pipe-active-texture1 {
+    opacity: 0.8;
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    mix-blend-mode: color-dodge;
+}
+
+.pipe-active-texture1::before {
+    content: "";
+    background-image: url(../ppp-assets/water7-light.png);
+    opacity: 1;
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    filter: url("#turbulence");
+}
+
+.pipe-active-texture2 {
+    opacity: 0.8;
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    mix-blend-mode: screen;
+}
+
+.pipe-active-texture2::before {
+    content: "";
+    background: #2F66AB url(../ppp-assets/water7.png);
+    opacity: 1;
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    filter: url("#turbulence");
+}
+
+.pipe-active-texture3 {
+    background: #2F66AB;
+    opacity: 1;
+    background-size: cover;
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.pipe .pipe-active-textures {
+    display: none;
+}
+
+.pipe-active .pipe-active-textures {
+    display: block;
+}
+
+.pipe[data-type="1"],
+.pipe[data-type="2"],
+.pipe[data-type="3"],
+.pipe[data-type="4"] {
+    --background: url(../ppp-assets/pipe1.png);
+    position: relative;
+}
+
+.pipe[data-type="2"] {
+    --rotate: 90deg;
+}
+
+.pipe[data-type="3"] {
+    --rotate: 180deg;
+}
+
+.pipe[data-type="4"] {
+    --rotate: 270deg;
+}
+
+.pipe[data-type="1"] .pipe-active-textures,
+.pipe[data-type="2"] .pipe-active-textures,
+.pipe[data-type="3"] .pipe-active-textures,
+.pipe[data-type="4"] .pipe-active-textures {
+    mask-image: url(../ppp-assets/water/pipe1mask.png);
+    -webkit-mask-image: url(../ppp-assets/water/pipe1mask.png);
+}
+
+.pipe[data-type="5"],
+.pipe[data-type="6"] {
+    --background: url(../ppp-assets/pipe5.png);
+}
+
+.pipe[data-type="5"] {
+    --rotate: 180deg;
+}
+
+.pipe[data-type="6"] {
+    --rotate: 270deg;
+}
+
+.pipe[data-type="5"] .pipe-active-textures,
+.pipe[data-type="6"] .pipe-active-textures {
+    mask-image: url(../ppp-assets/water/pipe5mask.png);
+    -webkit-mask-image: url(../ppp-assets/water/pipe5mask.png);
+}
+
+.pipe[data-type="7"],
+.pipe[data-type="8"],
+.pipe[data-type="9"],
+.pipe[data-type="10"] {
+    --background: url(../ppp-assets/pipe7.png);
+}
+
+.pipe[data-type="8"] {
+    --rotate: 90deg;
+}
+
+.pipe[data-type="9"] {
+    --rotate: 180deg;
+}
+
+.pipe[data-type="10"] {
+    --rotate: 270deg;
+}
+
+.pipe[data-type="7"] .pipe-active-textures,
+.pipe[data-type="8"] .pipe-active-textures,
+.pipe[data-type="9"] .pipe-active-textures,
+.pipe[data-type="10"] .pipe-active-textures {
+    mask-image: url(../ppp-assets/water/pipe7mask.png);
+    -webkit-mask-image: url(../ppp-assets/water/pipe7mask.png);
+}
+
+.pipe[data-type="11"],
+.pipe[data-type="12"],
+.pipe[data-type="13"],
+.pipe[data-type="14"] {
+    --background: url(../ppp-assets/pipe11.png);
+}
+
+.pipe[data-type="12"] {
+    --rotate: 90deg;
+}
+
+.pipe[data-type="13"] {
+    --rotate: 180deg;
+}
+
+.pipe[data-type="14"] {
+    --rotate: 270deg;
+}
+
+.pipe[data-type="11"] .pipe-active-textures,
+.pipe[data-type="12"] .pipe-active-textures,
+.pipe[data-type="13"] .pipe-active-textures,
+.pipe[data-type="14"] .pipe-active-textures {
+    mask-image: url(../ppp-assets/water/pipe11mask.png);
+    -webkit-mask-image: url(../ppp-assets/water/pipe11mask.png);
+}
+
+.pipe[data-type="15"] {
+    --background: url(../ppp-assets/pipe15.png);
+}
+
+.pipe[data-type="15"] .pipe-active-textures {
+    mask-image: url(../ppp-assets/water/pipe15mask.png);
+    -webkit-mask-image: url(../ppp-assets/water/pipe15mask.png);
+}
+
+.pipe[data-type="16"],
+.pipe[data-type="17"],
+.pipe[data-type="18"],
+.pipe[data-type="19"] {
+    --background: url(../ppp-assets/pipe17.png);
+}
+
+.pipe[data-type="17"] {
+    --rotate: 90deg;
+}
+
+.pipe[data-type="18"] {
+    --rotate: 180deg;
+}
+
+.pipe[data-type="19"] {
+    --rotate: 270deg;
+}
+
+.pipe[data-type="16"] .pipe-active-textures,
+.pipe[data-type="17"] .pipe-active-textures,
+.pipe[data-type="18"] .pipe-active-textures,
+.pipe[data-type="19"] .pipe-active-textures {
+    mask-image: url(../ppp-assets/water/pipe17mask.png);
+    -webkit-mask-image: url(../ppp-assets/water/pipe17mask.png);
+}
+
+.pipe[data-type="20"],
+.pipe[data-type="21"],
+.pipe[data-type="22"],
+.pipe[data-type="23"]{
+    --background: url(../ppp-assets/pipe18.png);
+}
+
+.pipe[data-type="21"] {
+    --rotate: 90deg;
+}
+
+.pipe[data-type="22"] {
+    --rotate: 180deg;
+}
+
+.pipe[data-type="23"] {
+    --rotate: 270deg;
+}
+
+.pipe[data-type="20"]::before,
+.pipe[data-type="21"]::before,
+.pipe[data-type="22"]::before,
+.pipe[data-type="23"]::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: url(../ppp-assets/zegar.png);
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.pipe[data-type="20"]::after,
+.pipe[data-type="21"]::after,
+.pipe[data-type="22"]::after,
+.pipe[data-type="23"]::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: 1s;
+    transition-timing-function: cubic-bezier(.1, 1.25, .79, .21);
+    background: url(../ppp-assets/arrow.png);
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+.pipe[data-type="20"] .pipe-active-textures,
+.pipe[data-type="21"] .pipe-active-textures,
+.pipe[data-type="22"] .pipe-active-textures,
+.pipe[data-type="23"] .pipe-active-textures {
+    mask-image: url(../ppp-assets/water/pipe18mask.png);
+    -webkit-mask-image: url(../ppp-assets/water/pipe18mask.png);
+}
+
+.pipe[data-type="20"].pipe-active::after,
+.pipe[data-type="21"].pipe-active::after,
+.pipe[data-type="22"].pipe-active::after,
+.pipe[data-type="23"].pipe-active::after {
+    transform: translate(-50%, -50%) rotate(180deg);
+}
+
+.pipe[data-type="30"] {
+    --background: url(../ppp-assets/block1.png);
+}
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    backdrop-filter: blur(2px);
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.popup-container {
+    width: 100%;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 20px;
+    color: #EEE;
+}
+
+.popup-title {
+    font-size: 10vw;
+    display: flex;
+    justify-content: center;
+    font-weight: 300;
+    margin: 60px;
+    font-family: 'Amatic SC', cursive;
+    /*font-family: 'Cabin Sketch', cursive;*/
+    font-family: 'Fredericka the Great', cursive;
+    font-family: 'Love Ya Like A Sister', cursive;
+    line-height: 0.8em;
+    color: #000;
+}
+
+.moves {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    font-family: 'Amatic SC', cursive;
+    /* font-family: 'Cabin Sketch', cursive; */
+    /* font-family: 'Fredericka the Great', cursive; */
+    font-family: 'Love Ya Like A Sister', cursive;
+    font-size: 80px;
+    color: #000;
+}
+
+.popup-button {
+    border: 3px solid black;
+    font-family: 'Amatic SC', cursive;
+    /* font-family: 'Cabin Sketch', cursive; */
+    /* font-family: 'Fredericka the Great', cursive; */
+    font-family: 'Love Ya Like A Sister', cursive;
+    font-size: 30px;
+    background: none;
+    padding: 15px 40px;
+}
+.popup-button:hover {
+    transform: rotate(6deg);
+    cursor: pointer;
+}
