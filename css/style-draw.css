@@ -4,28 +4,104 @@ body {
     font-family: sans-serif;
     height: 100vh;
     margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+}
+
+.level {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    grid-template-rows: 1fr 100px;
+    height: 100vh;
 }
 
 .canvas {
-    width: min(90vmin, 800px);
+    width: min(98vmin, 960px);
     display: inline-grid;
     border-radius: 5px;
     overflow: hidden;
-    padding: 45px;
+    padding: 15px;
     gap: 3px;
+    align-self: center;
+    justify-self: center;
+    grid-row: 1 / -1;
+}
+
+.trash {
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 30px;
+    font-family: 'Love Ya Like A Sister', cursive;
+}
+
+.parts-cnt {
+    background: #fff;
+    padding: 30px 60px;
+    border-left: 3px solid #000;
+    overflow-y: auto;
+}
+.parts-cnt::-webkit-scrollbar {
+    width: 3px;
+}
+.parts-cnt::-webkit-scrollbar-track {
+    background: #fff;
+}
+.parts-cnt::-webkit-scrollbar-thumb {
+    background: #000;
+}
+
+.parts-cnt .parts-pipe-place {
+    aspect-ratio: 1 / 1;
+    background: #fff;
+    padding: 20px;
+    border: 1px dashed rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+}
+
+.parts-cnt .parts-pipe-place .pipe {
+    background: #fff;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.5);
+}
+
+.pipe.dragged {
+    background-color: #fff;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.5), 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.pipe.invisible {
+    opacity: 0;
+}
+
+.pipe-cnt {
+    max-width: 300px;
+    aspect-ratio: 1 / 1;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.pipe-cnt.pipe-cnt-dragged-placed {
+    border: 1px dashed #000;
+}
+
+.parts-cnt .parts-pipe-place .pipe,
+.pipe-cnt.pipe-cnt-dragged-placed .pipe {
+    cursor: move;
+}
+
+.pipe-cnt.hovered {
+    background: gold;
 }
 
 .pipe {
-    max-width: 300px;
-    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.5);
-    border-radius: 4px;
     --rotateTime: 0.3s;
     --rotate: 0;
     position: relative;
     cursor: pointer;
+    border-radius: 4px;
+}
+
+.pipe[data-static] {
+    cursor: default;
 }
 
 .pipe-inside {
@@ -47,10 +123,6 @@ body {
     z-index: 1;
     background-image: var(--background);
     background-size: 100% 100%;
-}
-
-.pipe[data-static] {
-    cursor: default;
 }
 
 .pipe-active-textures {
@@ -170,11 +242,11 @@ body {
 }
 
 .pipe[data-type="5"] {
-    --rotate: 180deg;
+    --rotate: 0deg;
 }
 
 .pipe[data-type="6"] {
-    --rotate: 270deg;
+    --rotate: 90deg;
 }
 
 .pipe[data-type="5"] .pipe-active-textures,
@@ -345,6 +417,9 @@ body {
     --background: url(../ppp-assets/block1.png);
 }
 
+
+
+
 .popup {
     position: fixed;
     top: 0;
@@ -369,14 +444,11 @@ body {
 }
 
 .popup-title {
-    font-size: 10vw;
+    font-size: 8vw;
     display: flex;
     justify-content: center;
     font-weight: 300;
     margin: 60px;
-    font-family: 'Amatic SC', cursive;
-    /*font-family: 'Cabin Sketch', cursive;*/
-    font-family: 'Fredericka the Great', cursive;
     font-family: 'Love Ya Like A Sister', cursive;
     line-height: 0.8em;
     color: #000;
@@ -386,9 +458,6 @@ body {
     position: absolute;
     left: 20px;
     top: 20px;
-    font-family: 'Amatic SC', cursive;
-    /* font-family: 'Cabin Sketch', cursive; */
-    /* font-family: 'Fredericka the Great', cursive; */
     font-family: 'Love Ya Like A Sister', cursive;
     font-size: 80px;
     color: #000;
@@ -396,13 +465,11 @@ body {
 
 .popup-button {
     border: 3px solid black;
-    font-family: 'Amatic SC', cursive;
-    /* font-family: 'Cabin Sketch', cursive; */
-    /* font-family: 'Fredericka the Great', cursive; */
     font-family: 'Love Ya Like A Sister', cursive;
     font-size: 30px;
     background: none;
     padding: 15px 40px;
+    box-shadow: 5px 5px 0 0 rgba(0,0,0,1);
 }
 .popup-button:hover {
     transform: rotate(6deg);
