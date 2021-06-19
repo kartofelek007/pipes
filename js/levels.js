@@ -50,7 +50,7 @@ export default [
             ["●╚│┌●"],
             ["●┌┌┌◄"],
         ],
-        missed: "─┤"
+        missed: "─"
     },
     {
         pattern: [
