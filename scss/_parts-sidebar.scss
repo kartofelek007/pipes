@@ -2,6 +2,7 @@
 	background: #fff;
 	padding: 5px 60px 20px;
 	overflow-y: auto;
+	scrollbar-width: thin; //firefox
 
 	&::-webkit-scrollbar {
 		width: 3px;

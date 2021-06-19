@@ -118,7 +118,7 @@ body > .pipe {
 
 .pipe-active-texture2::before {
 	content: "";
-	background: #2F66AB url(../ppp-assets/water7.png);
+	background: url(../ppp-assets/water7.png);
 	opacity: 1;
 	display: block;
 	position: absolute;
