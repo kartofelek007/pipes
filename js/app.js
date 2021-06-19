@@ -3,81 +3,42 @@ import Pipe from "./pipe-class";
 import DragDrop from "./drag-drop-class";
 import Level from "./level-class";
 import {tileTypes} from "./tile-types";
-import levels from "./levels";
+import {LevelSelect} from "./level-select-class";
+import {EndLevelPopup} from "./end-level-class";
+import * as debug from "./_debug";
 
-const cnt = document.querySelector('.canvas');
-const movesEl = document.querySelector(".moves");
-const dragPipesCnt = document.querySelector('.parts-cnt');
-const trash = document.querySelector('.trash');
-
-let levelUnlock = [0];
-let currentLevel = null;
+let lastUnlockLevel = 0;
 let level = null;
 
 function startLevel(levelNr) {
-    currentLevel = levelNr;
-    movesEl.innerHTML = "00";
-    level = new Level(levelNr);
-    level.init();
+    level = new Level(levelNr, {
+        onEnd: e => {
+            endLevelPopup.show();
+            if (lastUnlockLevel === levelNr) {
+                lastUnlockLevel++;
+            }
+            levelSelect.unlockLevel(lastUnlockLevel);
+        }
+    });
     bindDrag();
 }
 
-function showSelectLevel() {
-    const levelSelect = document.querySelector(".level-select");
-    levelSelect.style.display = "flex";
-
-    const div = levelSelect.querySelector(".level-select-buttons");
-    div.innerHTML = "";
-
-    levels.forEach((el, i) => {
-        const button = document.createElement("button");
-        button.type = "block";
-        button.innerHTML = `level ${i}`;
-        button.onclick = e => {
-            levelSelect.style.display = "none";
-            startLevel(i);
-        }
-        button.disabled = true;
-        if (levelUnlock.includes(i)) button.disabled = false;
-        div.append(button);
-    })
-}
-
-showSelectLevel();
-
-let debug = true;
-if (debug) {
-    const select = document.querySelector("select");
-    select.style.cssText = `
-    position:absolute;
-    left: 10px;
-    bottom: 10px;`;
-
-    levels.forEach((el, i) => {
-        const option = document.createElement("option");
-        option.value = i;
-        option.innerHTML = `level ${i}`;
-        select.append(option);
-    })
-
-    select.onchange = function() {
-        lv = select.value;
-        let level = new Level(lv);
-        level.init();
-        bindDrag();
+let levelSelect = new LevelSelect({
+    onLevelSelect: nr => {
+        levelSelect.hide();
+        startLevel(nr);
     }
-}
+});
+levelSelect.show();
 
 
-const popup = document.querySelector(".popup");
-const btn = document.querySelector(".popup-button");
-btn.onclick = e => {
-    popup.style.display = "none";
-    if (currentLevel < levels.length) {
-        levelUnlock.push(currentLevel + 1);
+const endLevelPopup = new EndLevelPopup({
+    onButtonClick: e => {
+        endLevelPopup.hide();
+        levelSelect.show();
     }
-    showSelectLevel();
-}
+});
+
 
 function bindDrag() {
     const pipes = document.querySelectorAll(".parts-cnt .pipe");
@@ -97,7 +58,6 @@ function bindDrag() {
 
             onDragEnter: (e, elem, area, areaFrom) => {
                 area.classList.add("hovered")
-                area.classList.add("pipe-cnt-dragged-placed");
             },
 
             onDragEnd: (e, elem, areaFrom, areaDrop) => {
@@ -105,7 +65,7 @@ function bindDrag() {
 
             onDragLeave: (e, elem, area, areaFrom) => {
                 area.classList.remove("hovered");
-                area.classList.remove("pipe-cnt-dragged-placed");
+                area.classList.remove("pipe-cnt-placed");
             },
 
             onDragDrop: (e, elem, areaFrom, areaDrop) => {
@@ -121,11 +81,13 @@ function bindDrag() {
                 }
 
                 areaDrop.classList.remove("hovered");
-                areaDrop.classList.remove("pipe-cnt-dragged-placed");
+                areaDrop.classList.add("pipe-cnt-placed");
 
                 const {x, y} = areaDrop.dataset;
-                const tile = tileTypes.find(tile => tile.type === +type);
-                const pipe = new Pipe({...tile}, level.clickOnTile.bind(level));
+                const tileObj = {...tileTypes.find(tile => tile.type === +type)};
+                const pipe = new Pipe(tileObj, {
+                    onRotateEnd : level.clickOnTile.bind(level)
+                });
                 level.level[y][x] = pipe;
                 areaDrop.append(pipe.div);
                 level.increaseMoves();
@@ -155,36 +117,40 @@ function bindDrag() {
 
             onDragEnter: (e, elem, area, areaFrom) => {
                 area.classList.add("hovered")
-                area.classList.add("pipe-cnt-dragged-placed");
             },
 
             onDragEnd: (e, elem, areaFrom, areaDrop) => {
                 elem.classList.remove('invisible');
                 elem.classList.remove('dragged');
+                if (!areaDrop) {
+                    areaFrom.append(elem);
+                }
             },
 
             onDragLeave: (e, elem, area, areaFrom) => {
                 area.classList.remove("hovered");
-                area.classList.remove("pipe-cnt-dragged-placed");
+                areaFrom.classList.remove("pipe-cnt-placed");
             },
 
             onDragDrop: (e, elem, areaFrom, areaDrop) => {
                 if (areaDrop) {
                     areaDrop.classList.remove("hovered");
-                    areaDrop.classList.remove("pipe-cnt-dragged-placed");
+                    areaDrop.classList.add("pipe-cnt-placed");
 
                     if (areaDrop === trash) {
                         //zeruje element
                         {
                             const {x, y} = areaFrom.dataset;
-                            level.level[y][x] = new Pipe({...tileTypes.find(tile => tile.type === 0)});
+                            const typeObj = {...tileTypes.find(tile => tile.type === 0)}
+                            level.level[y][x] = new Pipe(typeObj, {
+                                onRotateEnd : level.clickOnTile.bind(level)
+                            });
                         }
                         elem.remove();
 
                         const type = elem.dataset.type;
                         const partsCnt = document.querySelectorAll(".parts-pipe-place");
                         const partCnt = [...partsCnt].find(div => div.dataset.types.split(",").includes(type));
-                        console.log(partCnt);
                         const nr = partCnt.querySelector(".parts-pipe-nr");
                         nr.innerHTML++;
 
@@ -192,17 +158,22 @@ function bindDrag() {
                         pipeDiv.classList.remove('invisible');
                         pipeDiv.classList.remove('dragged');
                     } else {
-                        console.log(areaDrop.querySelector(".pipe"));
                         if (areaFrom !== areaDrop && !areaDrop.querySelector(".pipe")) {
                             //zeruje element
                             {
                                 const {x, y} = areaFrom.dataset;
-                                level.level[y][x] = new Pipe({...tileTypes.find(tile => tile.type === 0)});
+                                const typeObj = {...tileTypes.find(tile => tile.type === 0)};
+                                level.level[y][x] = new Pipe(typeObj, {
+                                    onRotateEnd : level.clickOnTile.bind(level)
+                                });
                             }
 
                             const {x, y} = areaDrop.dataset;
                             const type = elem.dataset.type;
-                            const pipe = new Pipe({...tileTypes.find(tile => tile.type === +type)}, level.clickOnTile.bind(level));
+                            const typeObj = {...tileTypes.find(tile => tile.type === +type)};
+                            const pipe = new Pipe(typeObj, {
+                                onRotateEnd : level.clickOnTile.bind(level)
+                            });
                             level.level[y][x] = pipe;
                             level.increaseMoves();
                             areaDrop.append(pipe.div);
@@ -215,8 +186,6 @@ function bindDrag() {
                             areaFrom.append(elem);
                         }
                     }
-                } else {
-                    areaFrom.append(elem);
                 }
             }
         });

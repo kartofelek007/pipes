@@ -9,16 +9,26 @@ body {
 	height: 100vh;
 	margin: 0;
 	min-width: 1000px;
+
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
 }
 
 .level {
 	display: grid;
 	grid-template-columns: 1fr 280px;
-	grid-template-rows: 1fr 170px;
+	grid-template-rows: 80px 1fr 170px;
 	height: 100vh;
 	grid-template-areas:
+		"level moves"
 		"level missed-parts"
 		"level trash";
+}
+
+.level-complete .level {
+	filter: url("#turbulence");
 }
 
 .canvas-cnt {
@@ -27,12 +37,12 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	border-right: 2px solid #000;
+	height: 100%;
 }
 
 .canvas {
-	//width: min(98vmin, 960px);
-	width: 90%;
-	max-width: 1000px;
+	width: min(90%, 850px);
 	display: inline-grid;
 	border-radius: 5px;
 	overflow: hidden;
@@ -46,6 +56,7 @@ body {
 
 .parts-cnt {
 	grid-area: missed-parts;
+	overflow-y: scroll !important;
 }
 
 .trash {
@@ -53,12 +64,11 @@ body {
 }
 
 .moves {
-	display: none;
-	position: absolute;
-	left: 20px;
-	top: 20px;
+	align-self: center;
+	justify-content: center;
+	text-align: center;
 	font-family: 'Love Ya Like A Sister', cursive;
-	font-size: 80px;
+	font-size: 20px;
 	color: #000;
 }
 

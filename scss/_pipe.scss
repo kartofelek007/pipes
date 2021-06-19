@@ -7,6 +7,11 @@
 
 .pipe-cnt-empty {
 	border: 2px dashed #000;
+	background: url(../ppp-assets/bg.png);
+}
+
+.pipe-cnt-placed {
+	background: none;
 }
 
 .pipe-cnt.hovered {
@@ -69,7 +74,6 @@ body > .pipe {
 	position: relative;
 	mask-size: 100% 100%;
 	-webkit-mask-size: 100% 100%;
-
 }
 
 .pipe-active-texture1 {

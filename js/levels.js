@@ -45,12 +45,12 @@
 export default [
     {
         pattern: [
-            ["→┌┌┴●"],
+            ["→└┌┴●"],
             ["● ┌│●"],
             ["●╚│┌●"],
             ["●┌┌┌◄"],
         ],
-        missed: "─"
+        missed: "─┤"
     },
     {
         pattern: [

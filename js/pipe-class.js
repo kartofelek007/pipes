@@ -1,7 +1,7 @@
 import {tileTypes} from "./tile-types";
 
 export default class Pipe {
-    constructor({icon, type, inactive = false, points, active}, animationEndFn) {
+    constructor({icon, type, inactive = false, points, active}, opts) {
         this.points = points;
         this.check = false;
         this._icon = icon;
@@ -9,7 +9,12 @@ export default class Pipe {
         this._active = active;
         this._inactive = inactive;
         this._draggable = false;
-        this._animationEndFn = animationEndFn;
+        this.options = {
+            ...{
+                onRotateEnd : (el) => {}
+            },
+            ...opts
+        }
         this._div = Pipe.generateHTML(this._active, this._inactive, this._type);
 
         if (this._active) {
@@ -61,8 +66,8 @@ export default class Pipe {
             this.changePipe();
 
             this._div.addEventListener("transitionend", e => {
-                this._animationEndFn();
-            })
+                this.options.onRotateEnd(this._div);
+            }, {once: true})
         }
     }
 
@@ -94,7 +99,6 @@ export default class Pipe {
     set active(isActive) {
         this._active = isActive;
         if (this._active) {
-            console.log(this._div);
             this._div.classList.add("pipe-active");
         } else {
             this._div.classList.remove("pipe-active");

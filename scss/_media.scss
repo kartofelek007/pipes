@@ -1,9 +1,10 @@
 @media (max-width: $bpSmall) {
 	.level {
 		grid-template-columns: 1fr;
-		grid-template-rows: 200px 1fr 100px;
+		grid-template-rows: 200px 50px 1fr 100px;
 		grid-template-areas:
 			"missed-parts"
+			"moves"
 			"level"
 			"trash";
 	}
@@ -20,5 +21,8 @@
 		border-left: 0;
 		border-top: 2px solid #000;
 		border-bottom: 2px solid #000;
+	}
+	.canvas-cnt {
+		border: 0;
 	}
 }

@@ -18,11 +18,6 @@
 	margin-top: 0;
 }
 .level-select-buttons {
-	//display: flex;
-	//justify-content: center;
-	//align-items: center;
-	//align-content: center;
-	//flex-wrap: wrap;
 	justify-content: center;
 	display: grid;
 	grid-template-rows: 200px;
@@ -44,6 +39,7 @@
 }
 .level-select-buttons button:hover:not(:disabled) {
 	transform: rotate(3deg);
+	background: url(../ppp-assets/bg.png);
 }
 .level-select-buttons button:disabled {
 	opacity: 0.3;
