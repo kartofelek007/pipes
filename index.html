@@ -5,8 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>pipes</title>
-    <link rel="stylesheet" href="css/style-draw.css">
-<!--    <link rel="stylesheet" href="css/style.css">-->
 </head>
 <body>
     <svg style="display: none">
@@ -16,8 +14,6 @@
             <feDisplacementMap scale="20" in="SourceGraphic"></feDisplacementMap>
         </filter>
     </svg>
-
-    <div class="moves">00</div>
 
     <div class="popup" id="popup">
         <div class="popup-container">
@@ -29,15 +25,27 @@
         </div>
     </div>
 
+    <div class="level-select">
+        <h1 class="level-select-title">
+            Wybor poziomu
+        </h1>
+        <div class="level-select-buttons"></div>
+    </div>
+
     <div class="level">
-        <div class="canvas"></div>
+        <div class="moves">00</div>
+        <div class="canvas-cnt">
+            <div class="canvas"></div>
+        </div>
         <div class="parts-cnt"></div>
-        <div class="trash">trash</div>
+        <div class="trash">
+            <span>trash</span>
+        </div>
     </div>
 
     <select id="select"></select>
 
     <script>;</script>
-    <script src="js/app.js" type="module"></script>
+    <script src="./js/app.js" type="module"></script>
 </body>
 </html>

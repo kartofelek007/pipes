@@ -1,39 +1,71 @@
-import Pipe from "./pipe-class.js";
-import DragDrop from "./drag-drop-class.js";
-import Level from "./level-class.js";
-import {tileTypes} from "./tile-types.js";
-import levels from "./levels.js";
+import "../scss/style.scss";
+import Pipe from "./pipe-class";
+import DragDrop from "./drag-drop-class";
+import Level from "./level-class";
+import {tileTypes} from "./tile-types";
+import levels from "./levels";
 
 const cnt = document.querySelector('.canvas');
 const movesEl = document.querySelector(".moves");
 const dragPipesCnt = document.querySelector('.parts-cnt');
 const trash = document.querySelector('.trash');
 
+let levelUnlock = [0];
+let currentLevel = null;
+let level = null;
 
-
-let lv = 0;
-let level = new Level(lv);
-level.init();
-bindDrag();
-
-const select = document.querySelector("select");
-select.style.cssText = `
-    position:absolute;
-    left: 10px;
-    bottom: 10px;
-`;
-levels.forEach((el, i) => {
-    const option = document.createElement("option");
-    option.value = i;
-    option.innerHTML = `level ${i}`;
-    select.append(option);
-})
-
-select.onchange = function() {
-    lv = select.value;
-    let level = new Level(lv);
+function startLevel(levelNr) {
+    currentLevel = levelNr;
+    movesEl.innerHTML = "00";
+    level = new Level(levelNr);
     level.init();
     bindDrag();
+}
+
+function showSelectLevel() {
+    const levelSelect = document.querySelector(".level-select");
+    levelSelect.style.display = "flex";
+
+    const div = levelSelect.querySelector(".level-select-buttons");
+    div.innerHTML = "";
+
+    levels.forEach((el, i) => {
+        const button = document.createElement("button");
+        button.type = "block";
+        button.innerHTML = `level ${i}`;
+        button.onclick = e => {
+            levelSelect.style.display = "none";
+            startLevel(i);
+        }
+        button.disabled = true;
+        if (levelUnlock.includes(i)) button.disabled = false;
+        div.append(button);
+    })
+}
+
+showSelectLevel();
+
+let debug = true;
+if (debug) {
+    const select = document.querySelector("select");
+    select.style.cssText = `
+    position:absolute;
+    left: 10px;
+    bottom: 10px;`;
+
+    levels.forEach((el, i) => {
+        const option = document.createElement("option");
+        option.value = i;
+        option.innerHTML = `level ${i}`;
+        select.append(option);
+    })
+
+    select.onchange = function() {
+        lv = select.value;
+        let level = new Level(lv);
+        level.init();
+        bindDrag();
+    }
 }
 
 
@@ -41,12 +73,10 @@ const popup = document.querySelector(".popup");
 const btn = document.querySelector(".popup-button");
 btn.onclick = e => {
     popup.style.display = "none";
-    movesEl.innerHTML = "00";
-    lv++;
-    if (lv > 5) lv = 0;
-    level = new Level(lv);
-    level.init();
-    bindDrag();
+    if (currentLevel < levels.length) {
+        levelUnlock.push(currentLevel + 1);
+    }
+    showSelectLevel();
 }
 
 function bindDrag() {
@@ -97,12 +127,15 @@ function bindDrag() {
                 const tile = tileTypes.find(tile => tile.type === +type);
                 const pipe = new Pipe({...tile}, level.clickOnTile.bind(level));
                 level.level[y][x] = pipe;
-                pipe.draggable = true;
                 areaDrop.append(pipe.div);
                 level.increaseMoves();
                 level.resetTileStatus();
                 level.checkPipeConnection();
                 level.checkEndLevel();
+                pipe.draggable = true;
+
+                //czy polozone juz rurki powinno sie moc zabierac z planszy albo przestawiac
+                //miejscami? - dodatkowo powyzej draggable
                 bindElement(pipe.div);
             }
         });

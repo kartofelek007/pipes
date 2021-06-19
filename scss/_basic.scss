@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Cabin+Sketch:wght@400;700&family=Fredericka+the+Great&family=Love+Ya+Like+A+Sister&display=swap');
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: sans-serif;
+	height: 100vh;
+	margin: 0;
+	min-width: 1000px;
+}
+
+.level {
+	display: grid;
+	grid-template-columns: 1fr 280px;
+	grid-template-rows: 1fr 170px;
+	height: 100vh;
+	grid-template-areas:
+		"level missed-parts"
+		"level trash";
+}
+
+.canvas-cnt {
+	align-self: center;
+	grid-area: level;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.canvas {
+	//width: min(98vmin, 960px);
+	width: 90%;
+	max-width: 1000px;
+	display: inline-grid;
+	border-radius: 5px;
+	overflow: hidden;
+	padding: 15px;
+	gap: 3px;
+	align-self: center;
+	justify-self: center;
+	//grid-row: 1 / -1;
+	grid-area: level;
+}
+
+.parts-cnt {
+	grid-area: missed-parts;
+}
+
+.trash {
+	grid-area: trash;
+}
+
+.moves {
+	display: none;
+	position: absolute;
+	left: 20px;
+	top: 20px;
+	font-family: 'Love Ya Like A Sister', cursive;
+	font-size: 80px;
+	color: #000;
+}
+

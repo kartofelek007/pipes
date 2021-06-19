@@ -1,6 +1,6 @@
-import Pipe from "./pipe-class.js";
-import levels from "./levels.js";
-import {tileTypes, typesMustActive, typesWithPointBottom, typesWithPointLeft, typesWithPointRight, typesWithPointTop} from "./tile-types.js";
+import Pipe from "./pipe-class";
+import levels from "./levels";
+import {tileTypes, typesMustActive, typesWithPointBottom, typesWithPointLeft, typesWithPointRight, typesWithPointTop} from "./tile-types";
 
 const cnt = document.querySelector('.canvas');
 const movesEl = document.querySelector(".moves");
@@ -13,12 +13,11 @@ export default class Level {
         this.startTime = new Date();
         this.levelPattern = levels[levelNr].pattern.flat(Infinity);
         this.missedPart = levels[levelNr]?.missed;
-        this.rowCount = 0; //liczba elementow w rzędzie
-        this.colCount = 0; //liczba elementow w kolumnie
+        this.rowCount = 0;
+        this.colCount = 0;
         this.level = this.parseLevelText();
-        this.startPoint = null; //tylko 1 start
-        this.endPoints = []; //ale koncówek może być kilka
-        //
+        this.startPoint = null; //początek levelu może być tylko jeden
+        this.endPoints = []; //końcówek levelu może być wiele - raczej nie używane, bo i tak spradzam pola z typesMustActive
         this.generateMissedPart();
     }
 

@@ -1,4 +1,4 @@
-import {tileTypes} from "./tile-types.js";
+import {tileTypes} from "./tile-types";
 
 export default class Pipe {
     constructor({icon, type, inactive = false, points, active}, animationEndFn) {

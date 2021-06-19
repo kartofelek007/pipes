@@ -1,0 +1,32 @@
+.trash {
+	background: #000;
+	display: flex;
+	justify-content: center;
+	cursor: default;
+	align-items: center;
+	color: #000;
+	font-size: 40px;
+	text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff;
+	font-family: 'Love Ya Like A Sister', cursive;
+	background: url(../ppp-assets/trash-bg.jpg);
+	background: url(../ppp-assets/806c9b0665683dbb7131d9cbe34ebf05.jpg);
+	border-left: 2px solid #000;
+	border-top: 2px solid #000;
+	position: relative;
+
+	&::before {
+		content: "";
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		left: 0;
+		top: 0;
+		background: rgba(#fff, 0.3);
+	}
+
+	span {
+		position: relative;
+		z-index: 1;
+		pointer-events: none;
+	}
+}
