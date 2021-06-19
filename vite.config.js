@@ -1,4 +1,4 @@
 export default {
     root: "",
-    base: "",
+    base: "/pipes/",
 }
