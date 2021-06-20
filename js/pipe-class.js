@@ -13,17 +13,9 @@ export default class Pipe {
         this._active = active;
         this._inactive = inactive;
         this._draggable = false;
+        
         this.DOM = {};
         this.DOM.div = Pipe.generateHTML(this._active, this._inactive, this._type);
-
-        if (this._active) {
-            this.DOM.div.classList.add("pipe-active");
-        }
-        if (this._inactive) {
-            this.DOM.div.dataset.inactive = true;
-        }
-        this.DOM.div.dataset.type = this._type;
-
         this.bindEvents();
     }
 
