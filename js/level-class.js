@@ -13,6 +13,7 @@ export default class Level extends Page {
             onLevelEnd : new EventObserver(),
         };
         this.moves = 0;
+        this._levelEnd = false; //zmienna przelacznik, by sie spradzanie nie odpalalo kilka razy
         this.startTime = null; //czas gry
         this.levelPattern = levels[levelNr].pattern.flat(Infinity);
         this.missedPart = levels[levelNr]?.missed;
@@ -144,6 +145,8 @@ export default class Level extends Page {
         }
 
         if (tilesActive >= tilesToActive) {
+            this._levelEnd = true;
+
             const {days, hours, minutes, seconds} = this.getEndTime();
 
             console.log({
@@ -244,7 +247,9 @@ export default class Level extends Page {
     clickOnTile() {
         this.resetTileStatus();
         this.checkPipeConnection();
-        this.checkEndLevel();
+        if (!this._levelEnd) {
+            this.checkEndLevel();
+        }
         this.increaseMoves();
     }
 
@@ -273,7 +278,7 @@ export default class Level extends Page {
         }
     }
 
-    destroy() {
+    destructor() {
         this.DOM.div.remove();
     }
 }

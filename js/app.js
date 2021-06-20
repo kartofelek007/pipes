@@ -13,6 +13,7 @@ let level = null;
 let lastUnlockLevel = 0;
 
 function startLevel(levelNr) {
+    if (level !== null) level.destructor();
     level = new Level(levelNr);
     level.signals.onLevelEnd.on(e => {
         endLevelPopup.show();
@@ -27,6 +28,7 @@ function startLevel(levelNr) {
 let levelSelect = new LevelSelect();
 levelSelect.signals.onLevelSelect.on(nr => {
     levelSelect.hide();
+    console.log(nr);
     startLevel(nr);
 })
 levelSelect.show();
