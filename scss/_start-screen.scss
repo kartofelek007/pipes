@@ -1,5 +1,5 @@
 .start-screen {
-	background: url(../ppp-assets/start-bg.jpg);
+	background: url(../images/start-bg.jpg);
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -11,6 +11,7 @@
 	align-items: center;
 	flex-direction: column;
 }
+
 .start-screen-title {
 	font-size: 10vw;
 	font-family: 'Love Ya Like A Sister', cursive;
@@ -18,6 +19,7 @@
 	margin: 0;
 	text-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 10px #fff, 0 0 10px #fff, 0 0 10px #fff;
 }
+
 .start-screen-text {
 	font-family: 'Love Ya Like A Sister', cursive;
 	font-size: 25px;

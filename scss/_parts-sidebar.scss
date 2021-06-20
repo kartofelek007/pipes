@@ -7,9 +7,11 @@
 	&::-webkit-scrollbar {
 		width: 3px;
 	}
+
 	&::-webkit-scrollbar-track {
 		background: #fff;
 	}
+
 	&::-webkit-scrollbar-thumb {
 		background: #000;
 	}
@@ -50,8 +52,4 @@
 		opacity: 0;
 		pointer-events: none;
 	}
-}
-
-@media (max-width: $bpSmall) {
-
 }
