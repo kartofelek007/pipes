@@ -1,20 +1,17 @@
 import {Page} from "./page-class";
 import levels from "./levels";
+import EventObserver from "./eventObserver";
 
 export class LevelSelect extends Page {
     constructor(opts) {
         super();
+        this.signals = {
+            onLevelSelect : new EventObserver(),
+        };
         this.levelUnlocked = [0]; //levele odblokowane
 
         this.render();
         this.hide();
-        this.options = {
-            ...{
-                onLevelSelect: function(nr) {
-                }
-            },
-            ...opts
-        }
     }
 
     render() {
@@ -67,7 +64,7 @@ export class LevelSelect extends Page {
         buttons.forEach((btn, i) => {
             btn.addEventListener("click", e => {
                 this.hide();
-                this.options.onLevelSelect(i);
+                this.signals.onLevelSelect.emit(i);
             })
         })
     }

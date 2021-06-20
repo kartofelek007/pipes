@@ -1,7 +1,11 @@
 import {tileTypes} from "./tile-types";
+import EventObserver from "./eventObserver";
 
 export default class Pipe {
     constructor({icon, type, inactive = false, points, active}, opts) {
+        this.signals = {
+            onRotateEnd : new EventObserver()
+        };
         this.points = points;
         this.check = false;
         this._icon = icon;
@@ -9,12 +13,6 @@ export default class Pipe {
         this._active = active;
         this._inactive = inactive;
         this._draggable = false;
-        this.options = {
-            ...{
-                onRotateEnd : (el) => {}
-            },
-            ...opts
-        }
         this._div = Pipe.generateHTML(this._active, this._inactive, this._type);
 
         if (this._active) {
@@ -66,7 +64,7 @@ export default class Pipe {
             this.changePipe();
 
             this._div.addEventListener("transitionend", e => {
-                this.options.onRotateEnd(this._div);
+                this.signals.onRotateEnd.emit(this._div);
             }, {once: true})
         }
     }

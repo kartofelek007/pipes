@@ -1,19 +1,16 @@
 import {Page} from "./page-class";
 import levels from "./levels";
+import EventObserver from "./eventObserver";
 
 export class EndLevelPopup extends Page {
     constructor(opts) {
         super();
+        this.signals = {
+            onButtonClick : new EventObserver(),
+        };
         this.render();
         this.bindEvents();
         this.hide();
-        this.options = {
-            ...{
-                onButtonClick: function(nr) {
-                }
-            },
-            ...opts
-        }
     }
 
     render() {
@@ -44,7 +41,7 @@ export class EndLevelPopup extends Page {
     bindEvents() {
         this.button.addEventListener("click", e => {
             this.hide();
-            this.options.onButtonClick();
+            this.signals.onButtonClick.emit(true);
         })
     }
 }

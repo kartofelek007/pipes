@@ -2,12 +2,18 @@ import Pipe from "./pipe-class";
 import levels from "./levels";
 import {tileTypes, typesMustActive, typesWithPointBottom, typesWithPointLeft, typesWithPointRight, typesWithPointTop} from "./tile-types";
 import {Page} from "./page-class";
+import EventObserver from "./eventObserver";
 
 export default class Level extends Page {
-    constructor(levelNr, opts) {
+    constructor(levelNr) {
         super();
+        this.signals = {
+            onMove : new EventObserver(),
+            onLevelStart : new EventObserver(),
+            onLevelEnd : new EventObserver(),
+        };
         this.moves = 0;
-        this.startTime = new Date();
+        this.startTime = null; //czas gry
         this.levelPattern = levels[levelNr].pattern.flat(Infinity);
         this.missedPart = levels[levelNr]?.missed;
         this.rowCount = 0;
@@ -17,12 +23,6 @@ export default class Level extends Page {
         this.colCount = this.level[0].length;
         this.startPoint = null; //początek levelu może być tylko jeden
         this.endPoints = []; //końcówek levelu może być wiele - raczej nie używane, bo i tak spradzam pola z typesMustActive
-        this.options = {
-            ...{
-                onMove : function(nr) {},
-                onEnd : function(nr) {}
-            },
-            ...opts}
         this.init();
     }
 
@@ -95,8 +95,9 @@ export default class Level extends Page {
             let x = 0;
             for (let letter of str) {
                 const tile = tileTypes.find(tile => tile.icon === letter);
-                const pipe = new Pipe({...tile}, {
-                    onRotateEnd : this.clickOnTile.bind(this)
+                const pipe = new Pipe({...tile});
+                pipe.signals.onRotateEnd.on(e => {
+                    this.clickOnTile();
                 });
                 row.push(pipe);
                 x++;
@@ -105,6 +106,27 @@ export default class Level extends Page {
             level.push(row);
         }
         return level;
+    }
+
+    getEndTime() {
+        const endTime = new Date().getTime();
+
+        let delta = Math.abs(endTime - this.startTime) / 1000;
+
+        let days = Math.floor(delta / 86400);
+        delta -= days * 86400;
+
+        let hours = Math.floor(delta / 3600) % 24;
+        delta -= hours * 3600;
+
+        let minutes = Math.floor(delta / 60) % 60;
+        delta -= minutes * 60;
+
+        let seconds = delta % 60;  // in theory the modulus is not required
+
+        return {
+            days, hours, minutes, seconds
+        };
     }
 
     checkEndLevel() {
@@ -122,17 +144,19 @@ export default class Level extends Page {
         }
 
         if (tilesActive >= tilesToActive) {
-            const endTime = new Date().getTime();
-            const time = endTime - this.startTime;
-            const timeText = new Date(time * 1000).toISOString().substr(11, 8)
+            const {days, hours, minutes, seconds} = this.getEndTime();
 
-            let consoleStyles = "background: gold; color: red; padding: 10px; font-size: 20px;"
-            console.log("%cKONIEC", consoleStyles);
-            console.log("%cLiczba ruchów: " + this.moves, consoleStyles);
-            console.log("%cCzas ukończenia: " + timeText, consoleStyles);
+            console.log({
+                days, hours, minutes, seconds
+            });
+
+            console.log("%cKONIEC", "background: gold; color: red;");
 
             setTimeout(() => {
-                this.options.onEnd();
+                this.signals.onLevelEnd.emit({
+                    moves : this.moves,
+                    timeEnd : {days, hours, minutes, seconds}
+                })
             }, 1000)
         }
     }
@@ -214,11 +238,10 @@ export default class Level extends Page {
     increaseMoves() {
         this.moves++;
         this.showMoves();
-        this.options.onMove(this.moves);
+        this.signals.onMove.emit(this.moves);
     }
 
-    clickOnTile(p) {
-        console.log('x', p);
+    clickOnTile() {
         this.resetTileStatus();
         this.checkPipeConnection();
         this.checkEndLevel();
@@ -245,6 +268,8 @@ export default class Level extends Page {
             this.render();
             this.generateMissedPipes();
             this.checkPipeConnection();
+            this.startTime = new Date();
+            this.signals.onLevelStart.emit(true);
         }
     }
 
