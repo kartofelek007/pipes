@@ -48,6 +48,7 @@ endLevelPopup.signals.onButtonClick.on(e => {
 function bindDrag() {
     const pipes = document.querySelectorAll(".parts-cnt .pipe");
     const areas = document.querySelectorAll(".pipe-cnt-empty");
+    
     pipes.forEach(pipe => {
         const dd = new DragDrop(pipe, areas);
         dd.signals.dragStart.on((e, elem) => {
@@ -112,6 +113,8 @@ function bindDrag() {
 
     function bindElement(element) {
         const areas = document.querySelectorAll(".pipe-cnt-empty, .trash");
+        const trash = document.querySelector(".trash");
+
         const dd = new DragDrop(element, areas);
 
         dd.signals.dragStart.on((e, elem,) => {
