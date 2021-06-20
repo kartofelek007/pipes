@@ -13,15 +13,16 @@ export default class Pipe {
         this._active = active;
         this._inactive = inactive;
         this._draggable = false;
-        this._div = Pipe.generateHTML(this._active, this._inactive, this._type);
+        this.DOM = {};
+        this.DOM.div = Pipe.generateHTML(this._active, this._inactive, this._type);
 
         if (this._active) {
-            this._div.classList.add("pipe-active");
+            this.DOM.div.classList.add("pipe-active");
         }
         if (this._inactive) {
-            this._div.dataset.inactive = true;
+            this.DOM.div.dataset.inactive = true;
         }
-        this._div.dataset.type = this._type;
+        this.DOM.div.dataset.type = this._type;
 
         this.bindEvents();
     }
@@ -53,18 +54,18 @@ export default class Pipe {
         }
 
         this.points = tileTypes.find(tile => tile.type === this._type).points;
-        this._div.dataset.type = this._type;
+        this.DOM.div.dataset.type = this._type;
     }
 
     clickOnTile(e) {
         if (!this._inactive) {
-            const rotate = parseInt(getComputedStyle(this._div).getPropertyValue("--rotate"));
-            this._div.style.setProperty("--rotate", `${rotate + 90}deg`)
+            const rotate = parseInt(getComputedStyle(this.DOM.div).getPropertyValue("--rotate"));
+            this.DOM.div.style.setProperty("--rotate", `${rotate + 90}deg`)
 
             this.changePipe();
 
-            this._div.addEventListener("transitionend", e => {
-                this.signals.onRotateEnd.emit(this._div);
+            this.DOM.div.addEventListener("transitionend", e => {
+                this.signals.onRotateEnd.emit(this.DOM.div);
             }, {once: true})
         }
     }
@@ -97,9 +98,9 @@ export default class Pipe {
     set active(isActive) {
         this._active = isActive;
         if (this._active) {
-            this._div.classList.add("pipe-active");
+            this.DOM.div.classList.add("pipe-active");
         } else {
-            this._div.classList.remove("pipe-active");
+            this.DOM.div.classList.remove("pipe-active");
         }
     }
 
@@ -108,11 +109,11 @@ export default class Pipe {
     }
 
     get div() {
-        return this._div;
+        return this.DOM.div;
     }
 
     set inactive(isInactive) {
-        this._div.dataset.inactive = isInactive;
+        this.DOM.div.dataset.inactive = isInactive;
         this._inactive = isInactive;
     }
 
@@ -133,7 +134,7 @@ export default class Pipe {
     }
 
     set draggable(isDrag) {
-        this._div.draggable = isDrag;
+        this.DOM.div.draggable = isDrag;
         this._draggable = isDrag;
     }
 
@@ -143,10 +144,10 @@ export default class Pipe {
 
     bindEvents() {
         this.clickOnTile = this.clickOnTile.bind(this);
-        this._div.addEventListener("click", this.clickOnTile);
+        this.DOM.div.addEventListener("click", this.clickOnTile);
     }
 
     unbindEvents() {
-        this._div.removeEventListener("click", this.clickOnTile);
+        this.DOM.div.removeEventListener("click", this.clickOnTile);
     }
 }

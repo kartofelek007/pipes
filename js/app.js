@@ -6,6 +6,7 @@ import {tileTypes} from "./tile-types";
 import {LevelSelect} from "./level-select-class";
 import {EndLevelPopup} from "./end-level-class";
 import {Debug} from "./_debug-class";
+import {StartPage} from "./start-page-class";
 
 new Debug();
 
@@ -26,20 +27,23 @@ function startLevel(levelNr) {
 }
 
 let levelSelect = new LevelSelect();
+levelSelect.hide();
 levelSelect.signals.onLevelSelect.on(nr => {
     levelSelect.hide();
-    console.log(nr);
     startLevel(nr);
 })
-levelSelect.show();
 
+let startPage = new StartPage();
+startPage.signals.onClick.on(e => {
+    startPage.destructor();
+    levelSelect.show();
+})
 
 const endLevelPopup = new EndLevelPopup();
 endLevelPopup.signals.onButtonClick.on(e => {
     endLevelPopup.hide();
     levelSelect.show();
 })
-
 
 function bindDrag() {
     const pipes = document.querySelectorAll(".parts-cnt .pipe");
