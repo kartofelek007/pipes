@@ -7,7 +7,7 @@
 
 .pipe-cnt-empty {
 	border: 2px dashed #000;
-	background: url(../images/bg.png);
+	background: url(../images-assets/bg.png);
 }
 
 .pipe-cnt-placed {
@@ -31,7 +31,7 @@ body > .pipe {
 }
 
 .pipe-cnt .pipe {
-	cursor: url(../images/cursor-rotate.png), auto;
+	cursor: pointer; //url(../images-assets/cursor-rotate.png), auto;
 }
 
 .pipe.invisible {
@@ -91,7 +91,7 @@ body > .pipe {
 
 .pipe-active-texture1::before {
 	content: "";
-	background-image: url(../images/water-light.png);
+	background-image: url(../images-assets/water-light.png);
 	opacity: 1;
 	display: block;
 	position: absolute;
@@ -118,7 +118,7 @@ body > .pipe {
 
 .pipe-active-texture2::before {
 	content: "";
-	background: url(../images/water.png);
+	background: url(../images-assets/water.png);
 	opacity: 1;
 	display: block;
 	position: absolute;
@@ -153,7 +153,7 @@ body > .pipe {
 .pipe[data-type="2"],
 .pipe[data-type="3"],
 .pipe[data-type="4"] {
-	--background: url(../images/pipe1.png);
+	--background: url(../images-assets/pipe1.png);
 	position: relative;
 }
 
@@ -173,13 +173,13 @@ body > .pipe {
 .pipe[data-type="2"] .pipe-active-textures,
 .pipe[data-type="3"] .pipe-active-textures,
 .pipe[data-type="4"] .pipe-active-textures {
-	mask-image: url(../images/water/pipe1mask.png);
-	-webkit-mask-image: url(../images/water/pipe1mask.png);
+	mask-image: url(../images-assets/water/pipe1mask.png);
+	-webkit-mask-image: url(../images-assets/water/pipe1mask.png);
 }
 
 .pipe[data-type="5"],
 .pipe[data-type="6"] {
-	--background: url(../images/pipe5.png);
+	--background: url(../images-assets/pipe5.png);
 }
 
 .pipe[data-type="5"] {
@@ -192,15 +192,15 @@ body > .pipe {
 
 .pipe[data-type="5"] .pipe-active-textures,
 .pipe[data-type="6"] .pipe-active-textures {
-	mask-image: url(../images/water/pipe5mask.png);
-	-webkit-mask-image: url(../images/water/pipe5mask.png);
+	mask-image: url(../images-assets/water/pipe5mask.png);
+	-webkit-mask-image: url(../images-assets/water/pipe5mask.png);
 }
 
 .pipe[data-type="7"],
 .pipe[data-type="8"],
 .pipe[data-type="9"],
 .pipe[data-type="10"] {
-	--background: url(../images/pipe7.png);
+	--background: url(../images-assets/pipe7.png);
 }
 
 .pipe[data-type="8"] {
@@ -219,15 +219,15 @@ body > .pipe {
 .pipe[data-type="8"] .pipe-active-textures,
 .pipe[data-type="9"] .pipe-active-textures,
 .pipe[data-type="10"] .pipe-active-textures {
-	mask-image: url(../images/water/pipe7mask.png);
-	-webkit-mask-image: url(../images/water/pipe7mask.png);
+	mask-image: url(../images-assets/water/pipe7mask.png);
+	-webkit-mask-image: url(../images-assets/water/pipe7mask.png);
 }
 
 .pipe[data-type="11"],
 .pipe[data-type="12"],
 .pipe[data-type="13"],
 .pipe[data-type="14"] {
-	--background: url(../images/pipe11.png);
+	--background: url(../images-assets/pipe11.png);
 }
 
 .pipe[data-type="12"] {
@@ -246,24 +246,24 @@ body > .pipe {
 .pipe[data-type="12"] .pipe-active-textures,
 .pipe[data-type="13"] .pipe-active-textures,
 .pipe[data-type="14"] .pipe-active-textures {
-	mask-image: url(../images/water/pipe11mask.png);
-	-webkit-mask-image: url(../images/water/pipe11mask.png);
+	mask-image: url(../images-assets/water/pipe11mask.png);
+	-webkit-mask-image: url(../images-assets/water/pipe11mask.png);
 }
 
 .pipe[data-type="15"] {
-	--background: url(../images/pipe15.png);
+	--background: url(../images-assets/pipe15.png);
 }
 
 .pipe[data-type="15"] .pipe-active-textures {
-	mask-image: url(../images/water/pipe15mask.png);
-	-webkit-mask-image: url(../images/water/pipe15mask.png);
+	mask-image: url(../images-assets/water/pipe15mask.png);
+	-webkit-mask-image: url(../images-assets/water/pipe15mask.png);
 }
 
 .pipe[data-type="16"],
 .pipe[data-type="17"],
 .pipe[data-type="18"],
 .pipe[data-type="19"] {
-	--background: url(../images/pipe17.png);
+	--background: url(../images-assets/pipe17.png);
 }
 
 .pipe[data-type="17"] {
@@ -282,15 +282,15 @@ body > .pipe {
 .pipe[data-type="17"] .pipe-active-textures,
 .pipe[data-type="18"] .pipe-active-textures,
 .pipe[data-type="19"] .pipe-active-textures {
-	mask-image: url(../images/water/pipe17mask.png);
-	-webkit-mask-image: url(../images/water/pipe17mask.png);
+	mask-image: url(../images-assets/water/pipe17mask.png);
+	-webkit-mask-image: url(../images-assets/water/pipe17mask.png);
 }
 
 .pipe[data-type="20"],
 .pipe[data-type="21"],
 .pipe[data-type="22"],
 .pipe[data-type="23"] {
-	--background: url(../images/pipe18.png);
+	--background: url(../images-assets/pipe18.png);
 }
 
 .pipe[data-type="21"] {
@@ -314,7 +314,7 @@ body > .pipe {
 	left: 50%;
 	top: 50%;
 	transform: translate(-50%, -50%);
-	background: url(../images/zegar.png);
+	background: url(../images-assets/zegar.png);
 	background-size: cover;
 	width: 100%;
 	height: 100%;
@@ -332,7 +332,7 @@ body > .pipe {
 	transform: translate(-50%, -50%);
 	transition: 1s;
 	transition-timing-function: cubic-bezier(.1, 1.25, .79, .21);
-	background: url(../images/arrow.png);
+	background: url(../images-assets/arrow.png);
 	background-size: cover;
 	width: 100%;
 	height: 100%;
@@ -343,8 +343,8 @@ body > .pipe {
 .pipe[data-type="21"] .pipe-active-textures,
 .pipe[data-type="22"] .pipe-active-textures,
 .pipe[data-type="23"] .pipe-active-textures {
-	mask-image: url(../images/water/pipe18mask.png);
-	-webkit-mask-image: url(../images/water/pipe18mask.png);
+	mask-image: url(../images-assets/water/pipe18mask.png);
+	-webkit-mask-image: url(../images-assets/water/pipe18mask.png);
 }
 
 .pipe[data-type="20"].pipe-active::after,
@@ -356,24 +356,24 @@ body > .pipe {
 
 .pipe[data-type="24"],
 .pipe[data-type="25"] {
-	--background: url(../images/pipe5static.png);
+	--background: url(../images-assets/pipe5static.png);
 }
 
 .pipe[data-type="25"] {
-	--rotate: 180deg;
+	--rotate: 90deg;
 }
 
 .pipe[data-type="24"] .pipe-active-textures,
 .pipe[data-type="25"] .pipe-active-textures {
-	mask-image: url(../images/water/pipe5staticmask.png);
-	-webkit-mask-image: url(../images/water/pipe5staticmask.png);
+	mask-image: url(../images-assets/water/pipe5staticmask.png);
+	-webkit-mask-image: url(../images-assets/water/pipe5staticmask.png);
 }
 
 .pipe[data-type="26"],
 .pipe[data-type="27"],
 .pipe[data-type="28"],
 .pipe[data-type="29"] {
-	--background: url(../images/pipe7static.png);
+	--background: url(../images-assets/pipe7static.png);
 }
 
 .pipe[data-type="27"] {
@@ -392,10 +392,10 @@ body > .pipe {
 .pipe[data-type="27"] .pipe-active-textures,
 .pipe[data-type="28"] .pipe-active-textures,
 .pipe[data-type="29"] .pipe-active-textures {
-	mask-image: url(../images/water/pipe7staticmask.png);
-	-webkit-mask-image: url(../images/water/pipe7staticmask.png);
+	mask-image: url(../images-assets/water/pipe7staticmask.png);
+	-webkit-mask-image: url(../images-assets/water/pipe7staticmask.png);
 }
 
 .pipe[data-type="30"] {
-	--background: url(../images/block1.png);
+	--background: url(../images-assets/block1.png);
 }

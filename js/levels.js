@@ -1,5 +1,7 @@
 /*
+{...tileOb, icon: "x", points: "", inactive: true, type: -1},
 {...tileOb, icon: " ", points: "", inactive: true, type: 0},
+
 
 {...tileOb, icon: "←", points: "L", inactive: true, type: 1, types: [1, 2, 3, 4]},
 {...tileOb, icon: "↑", points: "T", inactive: true, type: 2, types: [1, 2, 3, 4]},
@@ -45,10 +47,19 @@
 export default [
     {
         pattern: [
+            ["╔══╝▼"],
+            ["║xxx│"],
+            ["╝xxx│"],
+            ["→│ │┌"],
+        ],
+        missed: "─"
+    },
+    {
+        pattern: [
             ["→└┌┴●"],
             ["● ┌│●"],
             ["●╚│┌●"],
-            ["●┌┌┌◄"],
+            ["●┌┐┌◄"],
         ],
         missed: "─"
     },
@@ -56,8 +67,8 @@ export default [
         pattern: [
             ["┌│││╡"],
             ["┌─┌│┌"],
-            ["┌┌│┌┌"],
-            ["→│ │◄"],
+            ["┌┌║┌┌"],
+            ["→═ ═◄"],
         ],
         missed: "┬"
     },
@@ -82,6 +93,17 @@ export default [
     },
     {
         pattern: [
+            ["┘┘─└└●╥"],
+            ["└┘●└└●║"],
+            ["└└ ╔└● "],
+            ["└└●└└● "],
+            ["└╗●└└● "],
+            ["→ ◄└┤ └"],
+        ],
+        missed: "┴────"
+    },
+    {
+        pattern: [
             ["┌│┌  ┌┌"],
             ["┌┌┌●●┌┌"],
             ["┌┌┌●┌┌┌"],
@@ -92,13 +114,13 @@ export default [
     },
     {
         pattern: [
-            ["└┐─│┐┤┼┤"],
+            ["└┐─│┐┤┼╥"],
             ["┌ ┬ ┌●┌┌"],
             ["┌┌●┌│┌┌┌"],
             ["┌┌←┌┌●┌│"],
-            ["┐┌┌┐ ┌┌┌"],
+            ["┐┌┌┐ ┌┌ "],
             ["┌└│─▲┌┌╨"],
         ],
-        missed: "──┐┤"
+        missed: "──┐┤┤"
     }
 ]

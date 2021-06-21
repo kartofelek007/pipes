@@ -1,5 +1,6 @@
 import {Page} from "./page-class";
 import levels from "./levels";
+console.log(levels);
 import EventObserver from "./eventObserver";
 
 export class LevelSelect extends Page {
@@ -19,7 +20,7 @@ export class LevelSelect extends Page {
         this.DOM.div.classList.add("level-select");
         this.DOM.div.innerHTML = `
             <h2 class="level-select-title">
-                Wybierz level
+                Wybierz poziom
             </h2>
             <div class="level-select-buttons"></div>
         `;

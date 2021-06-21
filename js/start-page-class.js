@@ -19,10 +19,10 @@ export class StartPage extends Page {
         this.DOM.div.classList.add("start-screen");
         this.DOM.div.innerHTML = `
             <h2 class="start-screen-title">
-                Pipes
+                Rurki
             </h2>  
             <p class="start-screen-text">
-                click to continue...
+                kliknij aby kontynuować...
             </p>
         `;
         document.body.append(this.DOM.div);

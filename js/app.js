@@ -7,8 +7,26 @@ import {LevelSelect} from "./level-select-class";
 import {EndLevelPopup} from "./end-level-class";
 import {Debug} from "./_debug-class";
 import {StartPage} from "./start-page-class";
+import levels from "./levels";
 
-new Debug();
+function addDebug(e) {
+    if (e.key === "?") {
+        const debug = new Debug();
+        debug.signals.onChangeValue.on(e => {
+            startLevel(e);
+        });
+        debug.signals.onButtonClick.on(e => {
+            lastUnlockLevel = levels.length - 1;
+
+            for (let i = 0; i <= lastUnlockLevel; i++) {
+                levelSelect.unlockLevel(i);
+            }
+        });
+        document.removeEventListener("keyup", addDebug);
+    }
+}
+
+document.addEventListener("keyup", addDebug);
 
 let level = null;
 let lastUnlockLevel = 0;
@@ -24,6 +42,7 @@ function startLevel(levelNr) {
         levelSelect.unlockLevel(lastUnlockLevel);
     });
     bindDrag();
+    levelSelect.hide();
 }
 
 let levelSelect = new LevelSelect();

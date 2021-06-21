@@ -24,8 +24,8 @@
 	justify-content: center;
 	display: grid;
 	grid-template-rows: 200px;
-	grid-template-columns: repeat(3, 200px);
-	gap: 30px;
+	grid-template-columns: repeat(4, 200px);
+	gap: 40px;
 }
 
 .level-select-buttons button {
@@ -34,7 +34,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-size: 50px;
+	font-size: 30px;
 	border: 3px solid black;
 	box-shadow: 5px 5px 0 0 rgba(0, 0, 0, 1);
 	font-family: 'Love Ya Like A Sister', cursive;
