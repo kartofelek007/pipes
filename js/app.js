@@ -10,7 +10,7 @@ import {StartPage} from "./start-page-class";
 import levels from "./levels";
 
 function addDebug(e) {
-    //if (e.key === "?") {
+    if (e.key === "?") {
         const debug = new Debug();
         debug.signals.onChangeValue.on(e => {
             startLevel(e);
@@ -23,9 +23,8 @@ function addDebug(e) {
             }
         });
         document.removeEventListener("keyup", addDebug);
-    //}
+    }
 }
-addDebug(null);
 document.addEventListener("keyup", addDebug);
 
 let level = null;
@@ -44,8 +43,6 @@ function startLevel(levelNr) {
     bindDrag();
     levelSelect.hide();
 }
-
-startLevel(3)
 
 let levelSelect = new LevelSelect();
 levelSelect.hide();
@@ -84,21 +81,16 @@ function bindDrag() {
         });
 
         dd.signals.dragEnter.on((e, elem, area, areaFrom) => {
-            console.log('enter');
             const {x, y} = area.dataset;
-            console.log(level.level[y][x]);
             if (level.level[y][x].type === 0) {
                 area.classList.add("hovered")
             }
         });
 
         dd.signals.dragEnd.on((e, elem, areaFrom, areaDrop) => {
-            console.log('end');
         });
 
         dd.signals.dragLeave.on((e, elem, area, areaFrom) => {
-            console.log('leave');
-
             const {x, y} = area.dataset;
             if (level.level[y][x].type > 1) {
                 area.classList.add("pipe-cnt-place-not-empty");
@@ -110,7 +102,6 @@ function bindDrag() {
         });
 
         dd.signals.dragDrop.on((e, elem, areaFrom, areaDrop) => {
-            console.log('drop');
             const type = +elem.dataset.type;
             const partCnt = elem.parentElement;
             const nr = partCnt.querySelector(".parts-pipe-nr");
@@ -178,7 +169,6 @@ function bindDrag() {
         });
 
         dd.signals.dragDrop.on((e, elem, areaFrom, areaDrop) => {
-            console.log(areaFrom, areaDrop);
             if (areaDrop) {
                 areaDrop.classList.remove("hovered");
                 areaDrop.classList.add("pipe-cnt-place-not-empty");
@@ -212,11 +202,9 @@ function bindDrag() {
 
                 const {x, y} = areaDrop.dataset;
                 const tileType = level.level[y][x].type;
-                console.log('xxxxxxxA');
-                console.log(areaFrom !== areaDrop , tileType);
+
                 if (areaFrom !== areaDrop && tileType === 0) {
                     //zeruje element na miejscu z ktorego wyciagam
-                    console.log('xxxxxxx');
                     {
                         const {x, y} = areaFrom.dataset;
                         const tileObj = {...tileTypes.find(tile => tile.type === 0)}
@@ -243,6 +231,9 @@ function bindDrag() {
                     level.resetTileStatus();
                     level.checkPipeConnection();
                     level.checkEndLevel();
+                } else {
+                    areaFrom.append(elem);
+                    areaFrom.classList.add("pipe-cnt-place-not-empty");
                 }
             } else {
                 areaFrom.append(elem);
