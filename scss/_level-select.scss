@@ -12,34 +12,46 @@
 }
 
 .level-select-title {
-	font-family: 'Love Ya Like A Sister', cursive;
+	font-family: 'Amatic SC', cursive;
 	font-size: 80px;
 	font-weight: normal;
 	text-align: center;
 	align-self: center;
 	margin-top: 0;
+	margin-bottom: 50px;
 }
 
 .level-select-buttons {
 	justify-content: center;
 	display: grid;
 	grid-template-rows: 200px;
-	grid-template-columns: repeat(4, 200px);
+	grid-template-columns: repeat(5, 200px);
 	gap: 40px;
 }
 
 .level-select-buttons button {
-	width: 200px;
-	height: 200px;
+	width: 100%;
+	aspect-ratio: 1 / 1;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-size: 30px;
+	flex-direction: column;
+	font-size: 25px;
 	border: 3px solid black;
 	box-shadow: 5px 5px 0 0 rgba(0, 0, 0, 1);
-	font-family: 'Love Ya Like A Sister', cursive;
 	background: none;
 	cursor: pointer;
+}
+
+.level-select-buttons button span {
+	font-family: 'Finger Paint', cursive;
+	font-size: 20px;
+}
+
+.level-select-buttons button strong {
+	font-family: 'Love Ya Like A Sister', cursive;
+	font-weight: normal;
+	font-size: 60px;
 }
 
 .level-select-buttons button:hover:not(:disabled) {

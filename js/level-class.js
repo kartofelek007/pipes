@@ -73,7 +73,7 @@ export default class Level extends Page {
             </div>
             <div class="parts-cnt"></div>
             <div class="trash">
-                <span>trash</span>
+                <span>kosz</span>
             </div>
         `;
         this.DOM.moves = this.DOM.div.querySelector(".moves");

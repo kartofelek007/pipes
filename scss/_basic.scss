@@ -1,4 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Cabin+Sketch:wght@400;700&family=Fredericka+the+Great&family=Love+Ya+Like+A+Sister&display=swap');
+@use "sass:list";
+@use "sass:string";
+
+@import url('https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700@display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap');
 
 * {
 	box-sizing: border-box;
@@ -14,6 +19,22 @@ body {
 	-moz-user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
+}
+
+$images : "arrow.png",  "bg.png",  "block1.png",  "cursor-rotate.png",  "pipe1.png",  "pipe5.png",  "pipe5broken.png",  "pipe5static.png",  "pipe7.png",  "pipe7static.png",  "pipe11.png",  "pipe15.png",  "pipe17.png",  "pipe18.png",  "start-bg.jpg",  "trash-bg.jpg",  "water.png",  "water6.png",  "water-light.png",  "zegar.png";
+
+$bg : null;
+
+@for $i from 1 through list.length($images) {
+	$img : "url(../images-assets/#{nth($images, $i)})";
+	$bg : list.append($bg, string.unquote($img), $separator: comma);
+}
+
+body::before {
+	content: "";
+	width: 0;
+	height: 0;
+	background-image: $bg;
 }
 
 .level {
@@ -67,7 +88,7 @@ body {
 	align-self: center;
 	justify-content: center;
 	text-align: center;
-	font-family: 'Love Ya Like A Sister', cursive;
+	font-family: 'Finger Paint', cursive;
 	font-size: 20px;
 	color: #000;
 }

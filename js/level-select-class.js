@@ -36,7 +36,10 @@ export class LevelSelect extends Page {
             const button = document.createElement("button");
             button.classList.add("level-select-button");
             button.disabled = !this.levelUnlocked.includes(i);
-            button.innerHTML = `Poziom ${i + 1}`;
+            button.innerHTML = `
+                <span>poziom</span>
+                <strong>${i + 1}</strong>
+            `;
             fragment.append(button);
         });
         this.DOM.buttonsCnt.append(fragment);

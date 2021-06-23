@@ -19,9 +19,11 @@ export class EndLevelPopup extends Page {
         this.div.innerHTML = `
             <div class="popup-container">
                 <h2 class="popup-title">
-                    zadanie<br>wykonane
+                    poziom zakończony
                 </h2>
-                <button class="popup-button">Next level</button>
+                <button class="popup-button">
+                    kontynuuj
+                </button>
             </div>        
         `;
         this.button = this.div.querySelector(".popup-button");
