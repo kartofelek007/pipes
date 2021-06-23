@@ -10,7 +10,7 @@ import {StartPage} from "./start-page-class";
 import levels from "./levels";
 
 function addDebug(e) {
-    if (e.key === "?") {
+    //if (e.key === "?") {
         const debug = new Debug();
         debug.signals.onChangeValue.on(e => {
             startLevel(e);
@@ -23,9 +23,9 @@ function addDebug(e) {
             }
         });
         document.removeEventListener("keyup", addDebug);
-    }
+    //}
 }
-
+addDebug(null);
 document.addEventListener("keyup", addDebug);
 
 let level = null;
@@ -44,6 +44,8 @@ function startLevel(levelNr) {
     bindDrag();
     levelSelect.hide();
 }
+
+startLevel(3)
 
 let levelSelect = new LevelSelect();
 levelSelect.hide();
@@ -66,7 +68,7 @@ endLevelPopup.signals.onButtonClick.on(e => {
 
 function bindDrag() {
     const pipes = document.querySelectorAll(".parts-cnt .pipe");
-    const areas = document.querySelectorAll(".pipe-cnt-empty");
+    const areas = document.querySelectorAll(".pipe-cnt-place");
     
     pipes.forEach(pipe => {
         const dd = new DragDrop(pipe, areas);
@@ -82,18 +84,33 @@ function bindDrag() {
         });
 
         dd.signals.dragEnter.on((e, elem, area, areaFrom) => {
-            area.classList.add("hovered")
+            console.log('enter');
+            const {x, y} = area.dataset;
+            console.log(level.level[y][x]);
+            if (level.level[y][x].type === 0) {
+                area.classList.add("hovered")
+            }
         });
 
         dd.signals.dragEnd.on((e, elem, areaFrom, areaDrop) => {
+            console.log('end');
         });
 
         dd.signals.dragLeave.on((e, elem, area, areaFrom) => {
+            console.log('leave');
+
+            const {x, y} = area.dataset;
+            if (level.level[y][x].type > 1) {
+                area.classList.add("pipe-cnt-place-not-empty");
+            } else {
+                area.classList.remove("pipe-cnt-place-not-empty");
+            }
+
             area.classList.remove("hovered");
-            area.classList.remove("pipe-cnt-placed");
         });
 
         dd.signals.dragDrop.on((e, elem, areaFrom, areaDrop) => {
+            console.log('drop');
             const type = +elem.dataset.type;
             const partCnt = elem.parentElement;
             const nr = partCnt.querySelector(".parts-pipe-nr");
@@ -106,7 +123,7 @@ function bindDrag() {
             }
 
             areaDrop.classList.remove("hovered");
-            areaDrop.classList.add("pipe-cnt-placed");
+            areaDrop.classList.add("pipe-cnt-place-not-empty");
 
             const {x, y} = areaDrop.dataset;
             const tileObj = {...tileTypes.find(tile => tile.type === +type)};
@@ -131,7 +148,7 @@ function bindDrag() {
     });
 
     function bindElement(element) {
-        const areas = document.querySelectorAll(".pipe-cnt-empty, .trash");
+        const areas = document.querySelectorAll(".pipe-cnt-place, .trash");
         const trash = document.querySelector(".trash");
 
         const dd = new DragDrop(element, areas);
@@ -157,13 +174,14 @@ function bindDrag() {
 
         dd.signals.dragLeave.on((e, elem, area, areaFrom) => {
             area.classList.remove("hovered");
-            areaFrom.classList.remove("pipe-cnt-placed");
+            areaFrom.classList.remove("pipe-cnt-place-not-empty");
         });
 
         dd.signals.dragDrop.on((e, elem, areaFrom, areaDrop) => {
+            console.log(areaFrom, areaDrop);
             if (areaDrop) {
                 areaDrop.classList.remove("hovered");
-                areaDrop.classList.add("pipe-cnt-placed");
+                areaDrop.classList.add("pipe-cnt-place-not-empty");
 
                 if (areaDrop === trash) {
                     //zeruje element
@@ -188,38 +206,47 @@ function bindDrag() {
                     const pipeDiv = partCnt.querySelector(".pipe");
                     pipeDiv.classList.remove('invisible');
                     pipeDiv.classList.remove('dragged');
-                } else {
-                    if (areaFrom !== areaDrop && !areaDrop.querySelector(".pipe")) {
-                        //zeruje element
-                        {
-                            const {x, y} = areaFrom.dataset;
-                            const tileObj = {...tileTypes.find(tile => tile.type === 0)}
-                            const pipe = new Pipe(tileObj);
-                            pipe.signals.onRotateEnd.on(e => {
-                                level.clickOnTile();
-                            });
-                            level.level[y][x] = pipe;
-                        }
 
-                        const {x, y} = areaDrop.dataset;
-                        const type = elem.dataset.type;
+                    return;
+                }
+
+                const {x, y} = areaDrop.dataset;
+                const tileType = level.level[y][x].type;
+                console.log('xxxxxxxA');
+                console.log(areaFrom !== areaDrop , tileType);
+                if (areaFrom !== areaDrop && tileType === 0) {
+                    //zeruje element na miejscu z ktorego wyciagam
+                    console.log('xxxxxxx');
+                    {
+                        const {x, y} = areaFrom.dataset;
                         const tileObj = {...tileTypes.find(tile => tile.type === 0)}
                         const pipe = new Pipe(tileObj);
                         pipe.signals.onRotateEnd.on(e => {
                             level.clickOnTile();
                         });
                         level.level[y][x] = pipe;
-                        level.increaseMoves();
-                        areaDrop.append(pipe.div);
-                        pipe.draggable = true;
-                        bindElement(pipe.div);
-                        level.resetTileStatus();
-                        level.checkPipeConnection();
-                        level.checkEndLevel();
-                    } else {
-                        areaFrom.append(elem);
                     }
+
+                    //ustawiam na miejscu na ktore wrzucam
+                    const {x, y} = areaDrop.dataset;
+                    const type = elem.dataset.type;
+                    const tileObj = {...tileTypes.find(tile => tile.type === +type)}
+                    const pipe = new Pipe(tileObj);
+                    pipe.signals.onRotateEnd.on(e => {
+                        level.clickOnTile();
+                    });
+                    level.level[y][x] = pipe;
+                    level.increaseMoves();
+                    areaDrop.append(pipe.div);
+                    pipe.draggable = true;
+                    bindElement(pipe.div);
+                    level.resetTileStatus();
+                    level.checkPipeConnection();
+                    level.checkEndLevel();
                 }
+            } else {
+                areaFrom.append(elem);
+                areaFrom.classList.add("pipe-cnt-place-not-empty");
             }
         });
 

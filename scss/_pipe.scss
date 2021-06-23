@@ -5,16 +5,16 @@
 	width: 100%;
 }
 
-.pipe-cnt-empty {
-	border: 2px dashed #000;
+.pipe-cnt-place {
 	background: url(../images-assets/bg.png);
+	border: 2px dashed #000;
 }
 
-.pipe-cnt-placed {
+.pipe-cnt-place-not-empty {
 	background: none;
 }
 
-.pipe-cnt.hovered {
+.pipe-cnt-place.hovered {
 	background: gold;
 }
 
@@ -77,7 +77,7 @@ body > .pipe {
 }
 
 .pipe-active-texture1 {
-	opacity: 0.8;
+	opacity: 0.7;
 	display: block;
 	position: absolute;
 	width: 100%;
@@ -86,37 +86,10 @@ body > .pipe {
 	top: 50%;
 	transform: translate(-50%, -50%);
 	z-index: 1;
-	mix-blend-mode: color-dodge;
+	mix-blend-mode: hard-light;
 }
 
 .pipe-active-texture1::before {
-	content: "";
-	background-image: url(../images-assets/water-light.png);
-	opacity: 1;
-	display: block;
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	filter: url("#turbulence");
-}
-
-.pipe-active-texture2 {
-	opacity: 0.8;
-	display: block;
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	z-index: 1;
-	mix-blend-mode: screen;
-}
-
-.pipe-active-texture2::before {
 	content: "";
 	background: url(../images-assets/water.png);
 	opacity: 1;
@@ -124,14 +97,15 @@ body > .pipe {
 	position: absolute;
 	width: 100%;
 	height: 100%;
+	background-size: 55px;
 	left: 50%;
 	top: 50%;
 	transform: translate(-50%, -50%);
 	filter: url("#turbulence");
 }
 
-.pipe-active-texture3 {
-	background: #2F66AB;
+.pipe-active-texture2 {
+	background: #7faacb;
 	opacity: 1;
 	background-size: cover;
 	display: block;
@@ -396,6 +370,16 @@ body > .pipe {
 	-webkit-mask-image: url(../images-assets/water/pipe7staticmask.png);
 }
 
-.pipe[data-type="30"] {
+
+.pipe[data-type="30"],
+.pipe[data-type="31"] {
+	--background: url(../images-assets/pipe5broken.png);
+}
+
+.pipe[data-type="31"] {
+	--rotate: 90deg;
+}
+
+.pipe[data-type="40"] {
 	--background: url(../images-assets/block1.png);
 }

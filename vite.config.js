@@ -1,4 +1,7 @@
 export default {
     root: "",
-    base: "/pipes/",
+    base: "",
+    server: {
+        port : 5555
+    }
 }

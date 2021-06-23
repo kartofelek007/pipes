@@ -186,7 +186,7 @@ export default class Level extends Page {
                 divCnt.dataset.y = y;
                 const pipe = this.level[y][x];
                 if (pipe.type === 0) {
-                    divCnt.classList.add("pipe-cnt-empty");
+                    divCnt.classList.add("pipe-cnt-place");
                 } else {
                     divCnt.append(pipe.div);
                 }

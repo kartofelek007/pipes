@@ -69,7 +69,6 @@ export default class Pipe {
                 <div class="pipe-active-textures">
                     <div class="pipe-active-texture1"></div>
                     <div class="pipe-active-texture2"></div>
-                    <div class="pipe-active-texture3"></div>
                 </div>
             </div>
         `;

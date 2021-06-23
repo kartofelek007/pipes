@@ -50,7 +50,10 @@ const tileTypes = [
     {...tileOb, icon: "╔", points: "RB", inactive: true, type: 28, types: [26, 27, 28, 29]},
     {...tileOb, icon: "╗", points: "LB", inactive: true, type: 29, types: [26, 27, 28, 29]},
 
-    {...tileOb, icon: "●", inactive: true, type: 30},
+    {...tileOb, icon: "b", points: "", inactive: true, type: 30, types: [30, 31]},
+    {...tileOb, icon: "B", points: "", inactive: true, type: 31, types: [30, 31]},
+
+    {...tileOb, icon: "●", inactive: true, type: 40},
 ]
 
 const typesWithPointLeft = tileTypes.filter(tile => tile.points && tile.points.includes("L")).map(tile => tile.type);
