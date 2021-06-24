@@ -1,19 +1,25 @@
 @use "sass:list";
 @use "sass:string";
+@import "functions";
 
 @import url('https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700@display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap');
+
+:root {
+	font-size: clamp(13.5px, calc(6px + 0.6vw), 20px);
+}
 
 * {
 	box-sizing: border-box;
 }
 
 body {
+	font-size: 1rem;
 	font-family: sans-serif;
-	height: 100vh;
+	min-height: 100vh;
 	margin: 0;
-	min-width: 1000px;
+	min-width: 900px;
 
 	user-select: none;
 	-moz-user-select: none;
@@ -39,8 +45,8 @@ body::before {
 
 .level {
 	display: grid;
-	grid-template-columns: 1fr 280px;
-	grid-template-rows: 80px 1fr 170px;
+	grid-template-columns: 1fr rem(280px);
+	grid-template-rows: rem(80px) 1fr rem(170px);
 	height: 100vh;
 	grid-template-areas:
 		"level moves"
@@ -63,11 +69,11 @@ body::before {
 }
 
 .canvas {
-	width: min(90%, 850px);
+	width: rem(850px);
 	display: inline-grid;
-	border-radius: 5px;
+	border-radius: rem(5px);
 	overflow: hidden;
-	padding: 15px;
+	padding: rem(15px);
 	gap: 3px;
 	align-self: center;
 	justify-self: center;
@@ -89,7 +95,7 @@ body::before {
 	justify-content: center;
 	text-align: center;
 	font-family: 'Finger Paint', cursive;
-	font-size: 20px;
+	font-size: rem(20px);
 	color: #000;
 }
 

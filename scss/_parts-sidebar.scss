@@ -1,6 +1,6 @@
 .parts-cnt {
 	background: #fff;
-	padding: 5px 60px 20px;
+	padding: rem(5px) rem(60px) rem(20px);
 	overflow-y: auto;
 	scrollbar-width: thin; //firefox
 
@@ -18,9 +18,9 @@
 
 	.parts-pipe-place {
 		aspect-ratio: 1 / 1;
-		padding: 20px;
+		padding: rem(20px);
 		border: 1px dashed rgba(0, 0, 0, 0.3);
-		margin-bottom: 20px;
+		margin-bottom: rem(20px);
 		position: relative;
 		background: #fff;
 	}
@@ -30,14 +30,14 @@
 		left: 0;
 		bottom: 0;
 		transform: translate(-50%, 50%);
-		width: 30px;
-		height: 30px;
+		width: rem(30px);
+		height: rem(30px);
 		border: 2px solid #000;
 		display: inline-flex;
 		justify-content: center;
 		align-items: center;
 		font-family: 'Love Ya Like A Sister', cursive;
-		font-size: 20px;
+		font-size: rem(20px);
 		font-weight: bold;
 		background: #fff;
 		border-radius: 50%;

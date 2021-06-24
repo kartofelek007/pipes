@@ -7,11 +7,11 @@ export default class DragDrop {
         this.areaFrom = null;
         this.areaDrop = null;
         this.signals = {
-            dragStart : new EventObserver(),
-            dragEnd   : new EventObserver(),
-            dragEnter : new EventObserver(),
-            dragLeave : new EventObserver(),
-            dragDrop  : new EventObserver(),
+            dragStart: new EventObserver(),
+            dragEnd: new EventObserver(),
+            dragEnter: new EventObserver(),
+            dragLeave: new EventObserver(),
+            dragDrop: new EventObserver(),
         }
 
         this.dragStart = this.dragStart.bind(this);
@@ -32,7 +32,12 @@ export default class DragDrop {
         document.addEventListener('dragleave', this.dragLeave);
         document.addEventListener('drop', this.dragDrop);
 
-        this.signals.dragStart.emit(e, this.element, this.dropAreas);
+        this.signals.dragStart.emit({
+            originalEvent: e,
+            dragElement: this.element,
+            dropAreas : this.dropAreas
+        });
+
     }
 
     dragEnd(e) {
@@ -41,7 +46,12 @@ export default class DragDrop {
         document.removeEventListener('dragleave', this.dragLeave);
         document.removeEventListener('drop', this.dragDrop);
 
-        this.signals.dragEnd.emit(e, this.element, this.areaFrom, this.areaDrop);
+        this.signals.dragEnd.emit({
+            originalEvent: e,
+            dragElement: this.element,
+            areaFrom: this.areaFrom,
+            areaDrop: this.areaDrop
+        });
     }
 
     dragOver(e) {
@@ -52,19 +62,34 @@ export default class DragDrop {
         e.preventDefault();
         const area = [...this.dropAreas].find(area => area === e.target);
         if (!area) return;
-        this.signals.dragEnter.emit(e, this.element, area, this.areaFrom);
+        this.signals.dragEnter.emit({
+            originalEvent: e,
+            dragElement: this.element,
+            areaEnter: area,
+            areaFrom: this.areaFrom
+        });
     }
 
     dragLeave(e) {
         const area = [...this.dropAreas].find(area => area === e.target);
         if (!area) return;
-        this.signals.dragLeave.emit(e, this.element, area, this.areaFrom);
+        this.signals.dragLeave.emit({
+            originalEvent: e,
+            dragElement: this.element,
+            areaLeave: area,
+            areaFrom: this.areaFrom
+        });
     }
 
     dragDrop(e) {
         const area = [...this.dropAreas].find(area => area === e.target);
         this.areaDrop = area || null;
-        this.signals.dragDrop.emit(e, this.element, this.areaFrom, this.areaDrop);
+        this.signals.dragDrop.emit({
+            originalEvent: e,
+            dragElement: this.element,
+            areaFrom: this.areaFrom,
+            areaDrop: this.areaDrop
+        });
     }
 
     bindEvents() {

@@ -10,6 +10,7 @@ const tileOb = {
 }
 
 const tileTypes = [
+    {...tileOb, icon: "x", points: "", inactive: true, type: -1},
     {...tileOb, icon: " ", points: "", inactive: true, type: 0},
 
     {...tileOb, icon: "←", points: "L", inactive: true, type: 1, types: [1, 2, 3, 4]},

@@ -13,7 +13,7 @@
 }
 
 .start-screen-title {
-	font-size: 10vw;
+	font-size: rem(200px);
 	font-family: 'Amatic SC', cursive;
 	font-weight: normal;
 	margin: 0;
@@ -22,8 +22,8 @@
 
 .start-screen-text {
 	font-family: 'Finger Paint', cursive;
-	font-size: 20px;
-	margin-top: 30px;
+	font-size: rem(20px);
+	margin-top: rem(30px);
 	text-align: center;
 	text-shadow: 0 0 5px #fff, 0 0 5px #fff, 0 0 5px #fff, 0 0 5px #fff, 0 0 5px #fff;
 	animation: startText 0.3s 0s infinite alternate ease-in-out;

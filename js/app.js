@@ -25,6 +25,7 @@ function addDebug(e) {
         document.removeEventListener("keyup", addDebug);
     }
 }
+
 document.addEventListener("keyup", addDebug);
 
 let level = null;
@@ -66,50 +67,50 @@ endLevelPopup.signals.onButtonClick.on(e => {
 function bindDrag() {
     const pipes = document.querySelectorAll(".parts-cnt .pipe");
     const areas = document.querySelectorAll(".pipe-cnt-place");
-    
+
     pipes.forEach(pipe => {
         const dd = new DragDrop(pipe, areas);
-        dd.signals.dragStart.on((e, elem) => {
-            const fromDiv = elem.parentElement;
+        dd.signals.dragStart.on(({originalEvent, dragElement}) => {
+            const fromDiv = dragElement.parentElement;
             const nr = fromDiv.querySelector(".parts-pipe-nr");
             nr.innerHTML--;
             if (nr.innerHTML <= 0) {
                 setTimeout(() => {
-                    elem.classList.add('invisible');
+                    dragElement.classList.add('invisible');
                 }, 0);
             }
         });
 
-        dd.signals.dragEnter.on((e, elem, area, areaFrom) => {
-            const {x, y} = area.dataset;
+        dd.signals.dragEnter.on(({originalEvent, dragElement, areaEnter, areaFrom}) => {
+            const {x, y} = areaEnter.dataset;
             if (level.level[y][x].type === 0) {
-                area.classList.add("hovered")
+                areaEnter.classList.add("hovered")
             }
         });
 
-        dd.signals.dragEnd.on((e, elem, areaFrom, areaDrop) => {
+        dd.signals.dragEnd.on(({originalEvent, dragElement, areaFrom, areaDrop}) => {
         });
 
-        dd.signals.dragLeave.on((e, elem, area, areaFrom) => {
-            const {x, y} = area.dataset;
+        dd.signals.dragLeave.on(({originalEvent, fragElement, areaLeave, areaFrom}) => {
+            const {x, y} = areaLeave.dataset;
             if (level.level[y][x].type > 1) {
-                area.classList.add("pipe-cnt-place-not-empty");
+                areaLeave.classList.add("pipe-cnt-place-not-empty");
             } else {
-                area.classList.remove("pipe-cnt-place-not-empty");
+                areaLeave.classList.remove("pipe-cnt-place-not-empty");
             }
 
-            area.classList.remove("hovered");
+            areaLeave.classList.remove("hovered");
         });
 
-        dd.signals.dragDrop.on((e, elem, areaFrom, areaDrop) => {
-            const type = +elem.dataset.type;
-            const partCnt = elem.parentElement;
+        dd.signals.dragDrop.on(({originalEvent, dragElement, areaFrom, areaDrop}) => {
+            const type = +dragElement.dataset.type;
+            const partCnt = dragElement.parentElement;
             const nr = partCnt.querySelector(".parts-pipe-nr");
 
             if (!areaDrop) {
                 nr.innerHTML++;
-                elem.classList.remove('invisible');
-                elem.classList.remove('dragged');
+                dragElement.classList.remove('invisible');
+                dragElement.classList.remove('dragged');
                 return;
             }
 
@@ -144,31 +145,31 @@ function bindDrag() {
 
         const dd = new DragDrop(element, areas);
 
-        dd.signals.dragStart.on((e, elem,) => {
+        dd.signals.dragStart.on(({originalEvent, dragElement}) => {
             setTimeout(() => {
-                elem.classList.add('invisible');
-                document.body.append(elem);
+                dragElement.classList.add('invisible');
+                document.body.append(dragElement);
             }, 0);
         });
 
-        dd.signals.dragEnter.on((e, elem, area, areaFrom) => {
-            area.classList.add("hovered")
+        dd.signals.dragEnter.on(({originalEvent, dragElement, areaEnter, areaFrom}) => {
+            areaEnter.classList.add("hovered")
         });
 
-        dd.signals.dragEnd.on((e, elem, areaFrom, areaDrop) => {
-            elem.classList.remove('invisible');
-            elem.classList.remove('dragged');
+        dd.signals.dragEnd.on(({originalEvent, dragElement, areaFrom, areaDrop}) => {
+            dragElement.classList.remove('invisible');
+            dragElement.classList.remove('dragged');
             if (!areaDrop) {
-                areaFrom.append(elem);
+                areaFrom.append(dragElement);
             }
         });
 
-        dd.signals.dragLeave.on((e, elem, area, areaFrom) => {
-            area.classList.remove("hovered");
+        dd.signals.dragLeave.on(({originalEvent, dragElement, areaLeave, areaFrom}) => {
+            areaLeave.classList.remove("hovered");
             areaFrom.classList.remove("pipe-cnt-place-not-empty");
         });
 
-        dd.signals.dragDrop.on((e, elem, areaFrom, areaDrop) => {
+        dd.signals.dragDrop.on(({originalEvent, dragElement, areaFrom, areaDrop}) => {
             if (areaDrop) {
                 areaDrop.classList.remove("hovered");
                 areaDrop.classList.add("pipe-cnt-place-not-empty");
@@ -185,7 +186,7 @@ function bindDrag() {
 
                         level.level[y][x] = pipe;
                     }
-                    elem.remove();
+                    dragElement.remove();
 
                     const type = elem.dataset.type;
                     const partsCnt = document.querySelectorAll(".parts-pipe-place");
@@ -217,7 +218,7 @@ function bindDrag() {
 
                     //ustawiam na miejscu na ktore wrzucam
                     const {x, y} = areaDrop.dataset;
-                    const type = elem.dataset.type;
+                    const type = dragElement?.dataset.type;
                     const tileObj = {...tileTypes.find(tile => tile.type === +type)}
                     const pipe = new Pipe(tileObj);
                     pipe.signals.onRotateEnd.on(e => {
@@ -232,11 +233,11 @@ function bindDrag() {
                     level.checkPipeConnection();
                     level.checkEndLevel();
                 } else {
-                    areaFrom.append(elem);
+                    areaFrom.append(dragElement);
                     areaFrom.classList.add("pipe-cnt-place-not-empty");
                 }
             } else {
-                areaFrom.append(elem);
+                areaFrom.append(dragElement);
                 areaFrom.classList.add("pipe-cnt-place-not-empty");
             }
         });
