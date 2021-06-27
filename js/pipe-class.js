@@ -2,62 +2,57 @@ import {tileTypes} from "./tile-types";
 import EventObserver from "./eventObserver";
 
 export default class Pipe {
-    constructor({icon, type, inactive = false, points, active}, opts) {
+    constructor({icon, type, inactive = false, active}) {
         this.signals = {
             onRotateEnd : new EventObserver()
         };
-        this.points = points;
-        this.check = false;
+
+        this._check = false;
         this._icon = icon;
         this._type = type;
+        this._points = this._getPipePoints();
+        this._pipeTypesGroup = this._getPipeTypesGroup();
         this._active = active;
         this._inactive = inactive;
         this._draggable = false;
-        
-        this.DOM = {};
-        this.DOM.div = Pipe.generateHTML(this._active, this._inactive, this._type);
+
+        this._DOM = {};
+        this._DOM.div = Pipe.generateHTML(this._active, this._inactive, this._type);
         this.bindEvents();
     }
 
-    changePipe() {
-        if (this._type >= 1 && this._type <= 4) {
-            this._type++;
-            if (this._type > 4) {
-                this._type = 1;
-            }
-        }
-        if (this._type >= 5 && this._type <= 6) {
-            this._type++;
-            if (this._type > 6) {
-                this._type = 5;
-            }
-        }
-        if (this._type >= 7 && this._type <= 10) {
-            this._type++;
-            if (this._type > 10) {
-                this._type = 7;
-            }
-        }
-        if (this._type >= 11 && this._type <= 14) {
-            this._type++;
-            if (this._type > 14) {
-                this._type = 11;
-            }
-        }
-
-        this.points = tileTypes.find(tile => tile.type === this._type).points;
-        this.DOM.div.dataset.type = this._type;
+    _getPipeTypesGroup() {
+        return tileTypes.find(pipe => pipe.type === this._type).types;
     }
 
-    clickOnTile(e) {
+    _getPipePoints() {
+        return tileTypes.find(tile => tile.type === this._type).points;
+    }
+
+    changePipe() {
+        const min = Math.min(...this._pipeTypesGroup);
+        const max = Math.max(...this._pipeTypesGroup);
+        
+        this._type++;
+
+        if (this._type > max) {
+            this._type = min;
+        }
+
+        this._pipeTypesGroup = this._getPipeTypesGroup();
+        this._points = this._getPipePoints();
+        this._DOM.div.dataset.type = this._type;
+    }
+
+    _clickOnTile(e) {
         if (!this._inactive) {
-            const rotate = parseInt(getComputedStyle(this.DOM.div).getPropertyValue("--rotate"));
-            this.DOM.div.style.setProperty("--rotate", `${rotate + 90}deg`)
+            const rotate = parseInt(getComputedStyle(this._DOM.div).getPropertyValue("--rotate"));
+            this._DOM.div.style.setProperty("--rotate", `${rotate + 90}deg`)
 
             this.changePipe();
 
-            this.DOM.div.addEventListener("transitionend", e => {
-                this.signals.onRotateEnd.emit(this.DOM.div);
+            this._DOM.div.addEventListener("transitionend", e => {
+                this.signals.onRotateEnd.emit(this._DOM.div);
             }, {once: true})
         }
     }
@@ -86,12 +81,28 @@ export default class Pipe {
         return div;
     }
 
+    get check() {
+        return this._check;
+    }
+
+    set check(isCheck) {
+        this._check = isCheck;
+    }
+
+    get points() {
+        return this._points;
+    }
+
+    set points(newPoints) {
+        if (typeof newPoints === "string") this._points = newPoints;
+    }
+
     set active(isActive) {
         this._active = isActive;
         if (this._active) {
-            this.DOM.div.classList.add("pipe-active");
+            this._DOM.div.classList.add("pipe-active");
         } else {
-            this.DOM.div.classList.remove("pipe-active");
+            this._DOM.div.classList.remove("pipe-active");
         }
     }
 
@@ -100,11 +111,11 @@ export default class Pipe {
     }
 
     get div() {
-        return this.DOM.div;
+        return this._DOM.div;
     }
 
     set inactive(isInactive) {
-        this.DOM.div.dataset.inactive = isInactive;
+        this._DOM.div.dataset.inactive = isInactive;
         this._inactive = isInactive;
     }
 
@@ -125,7 +136,7 @@ export default class Pipe {
     }
 
     set draggable(isDrag) {
-        this.DOM.div.draggable = isDrag;
+        this._DOM.div.draggable = isDrag;
         this._draggable = isDrag;
     }
 
@@ -134,11 +145,11 @@ export default class Pipe {
     }
 
     bindEvents() {
-        this.clickOnTile = this.clickOnTile.bind(this);
-        this.DOM.div.addEventListener("click", this.clickOnTile);
+        this._clickOnTile = this._clickOnTile.bind(this);
+        this._DOM.div.addEventListener("click", this._clickOnTile);
     }
 
     unbindEvents() {
-        this.DOM.div.removeEventListener("click", this.clickOnTile);
+        this._DOM.div.removeEventListener("click", this._clickOnTile);
     }
 }

@@ -21,10 +21,12 @@
   },
   "homepage": "https://github.com/kartofelek007/pipes#readme",
   "devDependencies": {
+    "babel-preset-env": "^1.7.0",
     "sass": "^1.35.1"
   },
   "dependencies": {
     "vite": "^2.3.7",
+    "vite-babel-plugin": "0.0.2",
     "vite-plugin-compress": "^2.1.0"
   }
 }

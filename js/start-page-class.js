@@ -4,20 +4,22 @@ import EventObserver from "./eventObserver";
 export class StartPage extends Page {
     constructor() {
         super();
+        this._DOM = {};
         this.signals = {
             onClick : new EventObserver()
         }
-        this.clickFn = function() {
-            this.signals.onClick.emit(true);
-        }.bind(this);
-        this.render();
-        this.bindEvents();
+        this._render();
+        this._bindEvents();
     }
 
-    render() {
-        this.DOM.div = document.createElement("div");
-        this.DOM.div.classList.add("start-screen");
-        this.DOM.div.innerHTML = `
+    _clickFn() {
+        this.signals.onClick.emit(true);
+    }
+
+    _render() {
+        this._DOM.div = document.createElement("div");
+        this._DOM.div.classList.add("start-screen");
+        this._DOM.div.innerHTML = `
             <h2 class="start-screen-title">
                 Rurki
             </h2>  
@@ -25,23 +27,24 @@ export class StartPage extends Page {
                 kliknij aby kontynuować...
             </p>
         `;
-        document.body.append(this.DOM.div);
+        document.body.append(this._DOM.div);
     }
 
-    bindEvents() {
-        document.addEventListener("click", this.clickFn, {once : true})
+    _bindEvents() {
+        this._clickFn = this._clickFn.bind(this);
+        document.addEventListener("click", this._clickFn, {once : true})
     }
 
     show() {
-        this.DOM.div.style.display = "flex";
+        this._DOM.div.style.display = "flex";
     }
 
     hide() {
-        this.DOM.div.style.display = "none";
+        this._DOM.div.style.display = "none";
     }
 
     destructor() {
-        document.removeEventListener("click", this.clickFn);
-        this.DOM.div.remove();
+        document.removeEventListener("click", this._clickFn);
+        this._DOM.div.remove();
     }
 }

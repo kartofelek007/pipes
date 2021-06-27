@@ -1,6 +1,6 @@
 export class Page {
     constructor() {
-        this.DOM = {};
+        this._DOM = {};
     }
 
     render() {}

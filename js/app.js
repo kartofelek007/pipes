@@ -201,6 +201,7 @@ function bindDrag() {
                     return;
                 }
 
+
                 const {x, y} = areaDrop.dataset;
                 const tileType = level.level[y][x].type;
 

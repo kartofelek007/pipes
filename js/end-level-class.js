@@ -1,22 +1,22 @@
 import {Page} from "./page-class";
-import levels from "./levels";
 import EventObserver from "./eventObserver";
 
 export class EndLevelPopup extends Page {
-    constructor(opts) {
+    constructor() {
         super();
         this.signals = {
             onButtonClick : new EventObserver(),
         };
-        this.render();
-        this.bindEvents();
+        this._DOM = {};
+        this._render();
+        this._bindEvents();
         this.hide();
     }
 
-    render() {
-        this.div = document.createElement("div");
-        this.div.classList.add("popup");
-        this.div.innerHTML = `
+    _render() {
+        this._DOM.div = document.createElement("div");
+        this._DOM.div.classList.add("popup");
+        this._DOM.div.innerHTML = `
             <div class="popup-container">
                 <h2 class="popup-title">
                     poziom zakończony
@@ -26,24 +26,24 @@ export class EndLevelPopup extends Page {
                 </button>
             </div>        
         `;
-        this.button = this.div.querySelector(".popup-button");
-        document.body.append(this.div);
+        this._DOM.button = this._DOM.div.querySelector(".popup-button");
+        document.body.append(this._DOM.div);
+    }
+
+    _bindEvents() {
+        this._DOM.button.addEventListener("click", e => {
+            this.hide();
+            this.signals.onButtonClick.emit(true);
+        })
     }
 
     show() {
-        this.div.style.display = "flex";
+        this._DOM.div.style.display = "flex";
         document.body.classList.add("level-complete");
     }
 
     hide() {
-        this.div.style.display = "none";
+        this._DOM.div.style.display = "none";
         document.body.classList.remove("level-complete");
-    }
-
-    bindEvents() {
-        this.button.addEventListener("click", e => {
-            this.hide();
-            this.signals.onButtonClick.emit(true);
-        })
     }
 }
