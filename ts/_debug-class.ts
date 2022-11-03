@@ -1,17 +1,34 @@
 import levels from "./levels";
 import EventObserver from "./eventObserver";
 
+type DOMType = {
+    select: HTMLSelectElement,
+    button: HTMLButtonElement
+}
+
+type SignalsType = {
+    onChangeValue: EventObserver,
+    onButtonClick: EventObserver
+}
+
 export class Debug {
-    constructor(props) {
+    signals: SignalsType;
+    DOM: DOMType;
+
+    constructor() {
         this.signals = {
-            onChangeValue : new EventObserver(),
-            onButtonClick : new EventObserver()
+            onChangeValue: new EventObserver(),
+            onButtonClick: new EventObserver()
         }
-        this.DOM = {};
+        this.DOM = {
+            select: document.createElement("select"),
+            button: document.createElement("button")
+        }
+
         this.render();
     }
 
-    render() {
+    render() : void {
         this.DOM.select = document.createElement("select")
         this.DOM.select.style.cssText = `
             position:absolute;
@@ -21,9 +38,9 @@ export class Debug {
         `;
 
         levels.forEach((el, i) => {
-            const option = document.createElement("option");
-            option.value = i;
-            option.innerHTML = `level ${i+1}`;
+            const option: HTMLOptionElement = document.createElement("option");
+            option.value = `${i}`;
+            option.innerHTML = `level ${i + 1}`;
             this.DOM.select.append(option);
         })
 
@@ -37,15 +54,14 @@ export class Debug {
             bottom: 35px;
             left: 10px;
             z-index: 1000;
-        `
+        `;
         this.DOM.button.classList.add("debug-button");
         this.DOM.button.innerHTML = "Odblokuj poziomy"
-        this.DOM.button.onclick = e => {
+        this.DOM.button.onclick = () => {
             this.signals.onButtonClick.emit(true);
         }
 
         document.body.append(this.DOM.select);
         document.body.append(this.DOM.button);
     }
-
 }

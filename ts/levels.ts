@@ -44,7 +44,14 @@
 {...tileOb, icon: "●", inactive: true, type: 30},
 */
 
-export default [
+type levelType = {
+    pattern: Array<Array<string>>,
+    missed: string
+}
+
+type levelsType = Array<levelType>
+
+const levels: levelsType = [
     {
         pattern: [
             ["╔══╝▼"],
@@ -142,4 +149,6 @@ export default [
         ],
         missed: "┤┤┤┤┤┤┐┐┐┐┐┐┐┐┐┐┐┐┐┐┐┐┐┐────"
     },
-]
+];
+
+export default levels

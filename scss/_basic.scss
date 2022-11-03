@@ -2,16 +2,28 @@
 @use "sass:string";
 @import "functions";
 
-@import url('https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700@display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap');
-
 :root {
 	font-size: clamp(13.5px, calc(6px + 0.6vw), 20px);
 }
 
 * {
 	box-sizing: border-box;
+}
+
+.preloadText {
+	position: absolute;
+	left: 0;
+	top: 0;
+	
+	.preloadText1 {
+		font-family: 'Amatic SC', cursive;
+	}
+	.preloadText2 {
+		font-family: 'Love Ya Like A Sister', cursive;
+	}
+	.preloadText3 {
+		font-family: Cursive, serif;
+	}
 }
 
 body {

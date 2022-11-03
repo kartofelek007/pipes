@@ -2,12 +2,28 @@ import {Page} from "./page-class";
 import levels from "./levels";
 import EventObserver from "./eventObserver";
 
+type DOMType = {
+    div: HTMLDivElement,
+    buttonsCnt: HTMLDivElement
+}
+
+type SignalsType = {
+    onLevelSelect: EventObserver,
+}
+
 export class LevelSelect extends Page {
+    private _DOM: DOMType
+    public signals: SignalsType
+    private _levelUnlocked: Array<number>
+
     constructor() {
         super();
-        this._DOM = {};
+        this._DOM = {
+            div: document.createElement("div"),
+            buttonsCnt: document.createElement("div"),
+        };
         this.signals = {
-            onLevelSelect : new EventObserver(),
+            onLevelSelect: new EventObserver(),
         };
         this._levelUnlocked = [0]; //levele odblokowane
 
@@ -15,7 +31,7 @@ export class LevelSelect extends Page {
         this.hide();
     }
 
-    _render() {
+    private _render(): void {
         this._DOM.div = document.createElement("div");
         this._DOM.div.classList.add("level-select");
         this._DOM.div.innerHTML = `
@@ -24,12 +40,12 @@ export class LevelSelect extends Page {
             </h2>
             <div class="level-select-buttons"></div>
         `;
-        this._DOM.buttonsCnt = this._DOM.div.querySelector(".level-select-buttons");
+        this._DOM.buttonsCnt = this._DOM.div.querySelector(".level-select-buttons") as HTMLDivElement;
         this._renderButtons();
         document.body.append(this._DOM.div);
     }
 
-    _renderButtons() {
+    private _renderButtons(): void {
         this._DOM.buttonsCnt.innerHTML = "";
         const fragment = new DocumentFragment();
         levels.forEach((level, i) => {
@@ -46,25 +62,25 @@ export class LevelSelect extends Page {
         this._bindEvents();
     }
 
-    _bindEvents() {
+    private _bindEvents(): void {
         const buttons = this._DOM.div.querySelectorAll(".level-select-button");
         buttons.forEach((btn, i) => {
-            btn.addEventListener("click", e => {
+            btn.addEventListener("click", () => {
                 this.hide();
                 this.signals.onLevelSelect.emit(i);
             })
         })
     }
 
-    show() {
+    show(): void {
         this._DOM.div.style.display = "flex";
     }
 
-    hide() {
+    hide(): void {
         this._DOM.div.style.display = "none";
     }
 
-    unlockLevel(levelNr) {
+    unlockLevel(levelNr: number): boolean {
         if (!this._levelUnlocked.includes(levelNr)) {
             this._levelUnlocked.push(levelNr);
             this._renderButtons();
