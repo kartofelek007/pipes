@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Cabin+Sketch:wght@400;700&family=Love+Ya+Like+A+Sister" rel="stylesheet">
+    <title>pipes</title>
+</head>
+<body>
+    <svg style="position: absolute; left:-99999px;">
+        <filter id="turbulence" x="0" y="0" width="100%" height="100%">
+            <feTurbulence id="sea-filter" numOctaves="3" seed="2" baseFrequency="0.02 0.05"></feTurbulence>
+            <animate xlink:href="#sea-filter" attributeName="baseFrequency" dur="20s" keyTimes="0;0.5;1" values="0.02 0.06;0.04 0.08;0.02 0.06" repeatCount="indefinite"/>
+            <feDisplacementMap scale="20" in="SourceGraphic"></feDisplacementMap>
+        </filter>
+    </svg>
+
+    <div class="preloadText" style="opacity: 0; pointer-events: none">
+        <div class="preloadText1">
+            poiomzakończonywybierzWYBIERZPOZIOMZAKOŃCZONY
+        </div>
+        <div class="preloadText2">
+            1234567890
+        </div>
+        <div class="preloadText3">
+            poziomliczbaruchów1234567890koszkontynuuj
+        </div>
+    </div>
+
+    <script>;</script>
+    <script src="/js/app.js" type="module"></script>
+</body>
+</html>

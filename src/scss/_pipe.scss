@@ -1,0 +1,385 @@
+.pipe-cnt {
+	max-width: rem(300px);
+	aspect-ratio: 1 / 1;
+	border: 1px solid rgba(0, 0, 0, 0.8);
+	width: 100%;
+}
+
+.pipe-cnt-place {
+	background: url(../../images-assets/bg.png);
+	border: 2px dashed #000;
+}
+
+.pipe-cnt-place-not-empty {
+	background: none;
+}
+
+.pipe-cnt-place.hovered {
+	background: gold;
+}
+
+.pipe {
+	--rotateTime: 0.3s;
+	--rotate: 0;
+	position: relative;
+	cursor: pointer;
+	border-radius: 4px;
+}
+
+body > .pipe {
+	position: absolute;
+}
+
+.pipe-cnt .pipe {
+	cursor: pointer; //url(../../images-assets/cursor-rotate.png), auto;
+}
+
+.pipe.invisible {
+	opacity: 0 !important;
+}
+
+.pipe[data-inactive] {
+	cursor: default;
+}
+
+.pipe[draggable] {
+	cursor: move;
+}
+
+.pipe-inside {
+	background-size: cover;
+	aspect-ratio: 1 / 1;
+	border-radius: 4px;
+	transition: var(--rotateTime) transform;
+	transform: rotate(var(--rotate));
+	position: relative;
+}
+
+.pipe-inside::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	background-image: var(--background);
+	background-size: 100% 100%;
+}
+
+.pipe-active-textures {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	position: relative;
+	mask-size: 100% 100%;
+	-webkit-mask-size: 100% 100%;
+}
+
+.pipe-active-texture1 {
+	opacity: 0.7;
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 1;
+	mix-blend-mode: hard-light;
+}
+
+.pipe-active-texture1::before {
+	content: "";
+	background: url(../../images-assets/water.png);
+	opacity: 1;
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-size: 55px;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	filter: url("#turbulence");
+}
+
+.pipe-active-texture2 {
+	background: #7faacb;
+	opacity: 1;
+	background-size: cover;
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 0;
+}
+
+.pipe .pipe-active-textures {
+	display: none;
+}
+
+.pipe-active .pipe-active-textures {
+	display: block;
+}
+
+.pipe[data-type="1"],
+.pipe[data-type="2"],
+.pipe[data-type="3"],
+.pipe[data-type="4"] {
+	--background: url(../../images-assets/pipe1.png);
+	position: relative;
+}
+
+.pipe[data-type="2"] {
+	--rotate: 90deg;
+}
+
+.pipe[data-type="3"] {
+	--rotate: 180deg;
+}
+
+.pipe[data-type="4"] {
+	--rotate: 270deg;
+}
+
+.pipe[data-type="1"] .pipe-active-textures,
+.pipe[data-type="2"] .pipe-active-textures,
+.pipe[data-type="3"] .pipe-active-textures,
+.pipe[data-type="4"] .pipe-active-textures {
+	mask-image: url(../../images-assets/water/pipe1mask.png);
+	-webkit-mask-image: url(../../images-assets/water/pipe1mask.png);
+}
+
+.pipe[data-type="5"],
+.pipe[data-type="6"] {
+	--background: url(../../images-assets/pipe5.png);
+}
+
+.pipe[data-type="5"] {
+	--rotate: 0deg;
+}
+
+.pipe[data-type="6"] {
+	--rotate: 90deg;
+}
+
+.pipe[data-type="5"] .pipe-active-textures,
+.pipe[data-type="6"] .pipe-active-textures {
+	mask-image: url(../../images-assets/water/pipe5mask.png);
+	-webkit-mask-image: url(../../images-assets/water/pipe5mask.png);
+}
+
+.pipe[data-type="7"],
+.pipe[data-type="8"],
+.pipe[data-type="9"],
+.pipe[data-type="10"] {
+	--background: url(../../images-assets/pipe7.png);
+}
+
+.pipe[data-type="8"] {
+	--rotate: 90deg;
+}
+
+.pipe[data-type="9"] {
+	--rotate: 180deg;
+}
+
+.pipe[data-type="10"] {
+	--rotate: 270deg;
+}
+
+.pipe[data-type="7"] .pipe-active-textures,
+.pipe[data-type="8"] .pipe-active-textures,
+.pipe[data-type="9"] .pipe-active-textures,
+.pipe[data-type="10"] .pipe-active-textures {
+	mask-image: url(../../images-assets/water/pipe7mask.png);
+	-webkit-mask-image: url(../../images-assets/water/pipe7mask.png);
+}
+
+.pipe[data-type="11"],
+.pipe[data-type="12"],
+.pipe[data-type="13"],
+.pipe[data-type="14"] {
+	--background: url(../../images-assets/pipe11.png);
+}
+
+.pipe[data-type="12"] {
+	--rotate: 90deg;
+}
+
+.pipe[data-type="13"] {
+	--rotate: 180deg;
+}
+
+.pipe[data-type="14"] {
+	--rotate: 270deg;
+}
+
+.pipe[data-type="11"] .pipe-active-textures,
+.pipe[data-type="12"] .pipe-active-textures,
+.pipe[data-type="13"] .pipe-active-textures,
+.pipe[data-type="14"] .pipe-active-textures {
+	mask-image: url(../../images-assets/water/pipe11mask.png);
+	-webkit-mask-image: url(../../images-assets/water/pipe11mask.png);
+}
+
+.pipe[data-type="15"] {
+	--background: url(../../images-assets/pipe15.png);
+}
+
+.pipe[data-type="15"] .pipe-active-textures {
+	mask-image: url(../../images-assets/water/pipe15mask.png);
+	-webkit-mask-image: url(../../images-assets/water/pipe15mask.png);
+}
+
+.pipe[data-type="16"],
+.pipe[data-type="17"],
+.pipe[data-type="18"],
+.pipe[data-type="19"] {
+	--background: url(../../images-assets/pipe17.png);
+}
+
+.pipe[data-type="17"] {
+	--rotate: 90deg;
+}
+
+.pipe[data-type="18"] {
+	--rotate: 180deg;
+}
+
+.pipe[data-type="19"] {
+	--rotate: 270deg;
+}
+
+.pipe[data-type="16"] .pipe-active-textures,
+.pipe[data-type="17"] .pipe-active-textures,
+.pipe[data-type="18"] .pipe-active-textures,
+.pipe[data-type="19"] .pipe-active-textures {
+	mask-image: url(../../images-assets/water/pipe17mask.png);
+	-webkit-mask-image: url(../../images-assets/water/pipe17mask.png);
+}
+
+.pipe[data-type="20"],
+.pipe[data-type="21"],
+.pipe[data-type="22"],
+.pipe[data-type="23"] {
+	--background: url(../../images-assets/pipe18.png);
+}
+
+.pipe[data-type="21"] {
+	--rotate: 90deg;
+}
+
+.pipe[data-type="22"] {
+	--rotate: 180deg;
+}
+
+.pipe[data-type="23"] {
+	--rotate: 270deg;
+}
+
+.pipe[data-type="20"]::before,
+.pipe[data-type="21"]::before,
+.pipe[data-type="22"]::before,
+.pipe[data-type="23"]::before {
+	content: "";
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	background: url(../../images-assets/zegar.png);
+	background-size: cover;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+}
+
+.pipe[data-type="20"]::after,
+.pipe[data-type="21"]::after,
+.pipe[data-type="22"]::after,
+.pipe[data-type="23"]::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	transition: 1s;
+	transition-timing-function: cubic-bezier(.1, 1.25, .79, .21);
+	background: url(../../images-assets/arrow.png);
+	background-size: cover;
+	width: 100%;
+	height: 100%;
+	z-index: 2;
+}
+
+.pipe[data-type="20"] .pipe-active-textures,
+.pipe[data-type="21"] .pipe-active-textures,
+.pipe[data-type="22"] .pipe-active-textures,
+.pipe[data-type="23"] .pipe-active-textures {
+	mask-image: url(../../images-assets/water/pipe18mask.png);
+	-webkit-mask-image: url(../../images-assets/water/pipe18mask.png);
+}
+
+.pipe[data-type="20"].pipe-active::after,
+.pipe[data-type="21"].pipe-active::after,
+.pipe[data-type="22"].pipe-active::after,
+.pipe[data-type="23"].pipe-active::after {
+	transform: translate(-50%, -50%) rotate(180deg);
+}
+
+.pipe[data-type="24"],
+.pipe[data-type="25"] {
+	--background: url(../../images-assets/pipe5static.png);
+}
+
+.pipe[data-type="25"] {
+	--rotate: 90deg;
+}
+
+.pipe[data-type="24"] .pipe-active-textures,
+.pipe[data-type="25"] .pipe-active-textures {
+	mask-image: url(../../images-assets/water/pipe5staticmask.png);
+	-webkit-mask-image: url(../../images-assets/water/pipe5staticmask.png);
+}
+
+.pipe[data-type="26"],
+.pipe[data-type="27"],
+.pipe[data-type="28"],
+.pipe[data-type="29"] {
+	--background: url(../../images-assets/pipe7static.png);
+}
+
+.pipe[data-type="27"] {
+	--rotate: 90deg;
+}
+
+.pipe[data-type="28"] {
+	--rotate: 180deg;
+}
+
+.pipe[data-type="29"] {
+	--rotate: 270deg;
+}
+
+.pipe[data-type="26"] .pipe-active-textures,
+.pipe[data-type="27"] .pipe-active-textures,
+.pipe[data-type="28"] .pipe-active-textures,
+.pipe[data-type="29"] .pipe-active-textures {
+	mask-image: url(../../images-assets/water/pipe7staticmask.png);
+	-webkit-mask-image: url(../../images-assets/water/pipe7staticmask.png);
+}
+
+
+.pipe[data-type="30"],
+.pipe[data-type="31"] {
+	--background: url(../../images-assets/pipe5broken.png);
+}
+
+.pipe[data-type="31"] {
+	--rotate: 90deg;
+}
+
+.pipe[data-type="40"] {
+	--background: url(../../images-assets/block1.png);
+}
