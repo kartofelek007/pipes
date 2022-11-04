@@ -1,36 +1,37 @@
-import Pipe from "./pipe-class";
-import levels from "./levels";
-import {TileType, tileTypes, typesMustActive, typesWithPointBottom, typesWithPointLeft, typesWithPointRight, typesWithPointTop} from "./tile-types";
+import {Pipe} from "./pipe-class";
+import {levels} from "./levels";
+import {tileTypes, typesMustActive, typesWithPointBottom, typesWithPointLeft, typesWithPointRight, typesWithPointTop} from "./tile-types";
+import type {TileType} from "./tile-types";
 import {Page} from "./page-class";
-import EventObserver from "./eventObserver";
+import {EventObserver} from "./eventObserver";
 
 type DOMType = {
-    div: HTMLDivElement,
-    moves: HTMLDivElement,
-    canvas: HTMLCanvasElement,
-    trash: HTMLDivElement,
-    parts: HTMLDivElement,
+    div: HTMLDivElement;
+    moves: HTMLDivElement;
+    canvas: HTMLCanvasElement;
+    trash: HTMLDivElement;
+    parts: HTMLDivElement;
 }
 
 type SignalsType = {
-    onMove: EventObserver,
-    onLevelStart: EventObserver,
-    onLevelEnd: EventObserver,
+    onMove: EventObserver;
+    onLevelStart: EventObserver;
+    onLevelEnd: EventObserver;
 }
 
 type PointType = {
-    x: number,
-    y: number
+    x: number;
+    y: number;
 }
 
 type DateTimeType = {
-    days : number,
-    hours : number,
-    minutes : number,
-    seconds : number
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
 }
 
-export default class Level extends Page {
+export class Level extends Page {
     private _DOM: DOMType
     public signals: SignalsType
 
@@ -62,7 +63,9 @@ export default class Level extends Page {
         this._moves = 0;
         this._levelEnd = false; //zmienna przelacznik, by sie spradzanie nie odpalalo kilka razy
         this._startTime = new Date().getTime(); //czas gry
-        this._levelPattern = levels[levelNr].pattern.flat(Infinity);
+        //this._levelPattern = levels[levelNr].pattern.flat(Infinity);
+        const pattern: string[][] = levels[levelNr].pattern;
+        this._levelPattern = ([] as string[]).concat(...pattern);
         this._missedPart = levels[levelNr]?.missed;
         this._level = this._parseLevelText();
         this._rowCount = this._level.length;
@@ -199,6 +202,12 @@ export default class Level extends Page {
 
             const {days, hours, minutes, seconds} = this._getEndTime();
 
+            console.log({
+                days, hours, minutes, seconds
+            });
+
+            console.log("%cKONIEC", "background: gold; color: red;");
+
             setTimeout(() => {
                 this.signals.onLevelEnd.emit({
                     moves: this._moves,
@@ -283,13 +292,13 @@ export default class Level extends Page {
         return true
     }
 
-    increaseMoves() {
+    increaseMoves(): void {
         this._moves++;
         this._showMoves();
         this.signals.onMove.emit(this._moves);
     }
 
-    clickOnTile() {
+    clickOnTile(): void {
         this.resetTileStatus();
         this.checkPipeConnection();
         if (!this._levelEnd) {
@@ -302,7 +311,7 @@ export default class Level extends Page {
         return this._level;
     }
 
-    _init() {
+    private _init(): void {
         //find start and end
         for (let y = 0; y < this._level.length; y++) {
             for (let x = 0; x < this._level[y].length; x++) {
@@ -327,7 +336,7 @@ export default class Level extends Page {
         }
     }
 
-    destructor() {
+    destructor(): void {
         this._DOM.div.remove();
     }
 }

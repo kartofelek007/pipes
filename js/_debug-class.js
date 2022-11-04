@@ -1,16 +1,22 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Debug = void 0;
-const levels_1 = __importDefault(require("./levels"));
-const eventObserver_1 = __importDefault(require("./eventObserver"));
-class Debug {
+import { levels } from "./levels";
+import { EventObserver } from "./eventObserver";
+export class Debug {
     constructor() {
+        Object.defineProperty(this, "signals", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "DOM", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
         this.signals = {
-            onChangeValue: new eventObserver_1.default(),
-            onButtonClick: new eventObserver_1.default()
+            onChangeValue: new EventObserver(),
+            onButtonClick: new EventObserver()
         };
         this.DOM = {
             select: document.createElement("select"),
@@ -26,7 +32,7 @@ class Debug {
             bottom: 10px;
             z-index: 1000
         `;
-        levels_1.default.forEach((el, i) => {
+        levels.forEach((el, i) => {
             const option = document.createElement("option");
             option.value = `${i}`;
             option.innerHTML = `level ${i + 1}`;
@@ -51,4 +57,3 @@ class Debug {
         document.body.append(this.DOM.button);
     }
 }
-exports.Debug = Debug;

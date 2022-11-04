@@ -1,6 +1,6 @@
 import {Page} from "./page-class";
-import levels from "./levels";
-import EventObserver from "./eventObserver";
+import {levels} from "./levels";
+import {EventObserver} from "./eventObserver";
 
 type DOMType = {
     div: HTMLDivElement,

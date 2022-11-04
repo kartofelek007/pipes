@@ -1,13 +1,13 @@
-import "../scss/style.scss";
-import Pipe from "./pipe-class";
-import DragDrop from "./drag-drop-class";
-import Level from "./level-class";
+import "/src/scss/style.scss";
+import {Pipe} from "./pipe-class";
+import {DragDrop} from "./drag-drop-class";
 import {tileTypes} from "./tile-types";
 import {LevelSelect} from "./level-select-class";
 import {EndLevelPopup} from "./end-level-class";
+import {Level} from "./level-class";
 import {Debug} from "./_debug-class";
 import {StartPage} from "./start-page-class";
-import levels from "./levels";
+import {levels} from "./levels";
 
 function addDebug(e: KeyboardEvent): void {
     if (e.key === "?") {
@@ -149,7 +149,7 @@ function bindDrag(): void {
         dd.bindEvents();
     });
 
-    function bindElement(element: HTMLElement) : void {
+    function bindElement(element: HTMLElement): void {
         const areas = document.querySelectorAll(".pipe-cnt-place, .trash");
         const trash = document.querySelector(".trash");
 

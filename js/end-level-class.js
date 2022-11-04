@@ -1,16 +1,22 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.EndLevelPopup = void 0;
-const page_class_1 = require("./page-class");
-const eventObserver_1 = __importDefault(require("./eventObserver"));
-class EndLevelPopup extends page_class_1.Page {
+import { Page } from "./page-class";
+import { EventObserver } from "./eventObserver";
+export class EndLevelPopup extends Page {
     constructor() {
         super();
+        Object.defineProperty(this, "_DOM", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "signals", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
         this.signals = {
-            onButtonClick: new eventObserver_1.default(),
+            onButtonClick: new EventObserver(),
         };
         this._DOM = {
             div: document.createElement("div"),
@@ -51,4 +57,3 @@ class EndLevelPopup extends page_class_1.Page {
         document.body.classList.remove("level-complete");
     }
 }
-exports.EndLevelPopup = EndLevelPopup;

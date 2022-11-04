@@ -1,21 +1,46 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const eventObserver_1 = __importDefault(require("./eventObserver"));
-class DragDrop {
+import { EventObserver } from "./eventObserver";
+export class DragDrop {
     constructor(dragElement, dropAreas) {
+        Object.defineProperty(this, "_element", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "_dropAreas", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "_areaFrom", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "_areaDrop", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "signals", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
         this._element = dragElement;
         this._dropAreas = [...dropAreas];
         this._areaFrom = null;
         this._areaDrop = null;
         this.signals = {
-            dragStart: new eventObserver_1.default(),
-            dragEnd: new eventObserver_1.default(),
-            dragEnter: new eventObserver_1.default(),
-            dragLeave: new eventObserver_1.default(),
-            dragDrop: new eventObserver_1.default(),
+            dragStart: new EventObserver(),
+            dragEnd: new EventObserver(),
+            dragEnter: new EventObserver(),
+            dragLeave: new EventObserver(),
+            dragDrop: new EventObserver(),
         };
         this.dragStart = this.dragStart.bind(this);
         this.dragEnd = this.dragEnd.bind(this);
@@ -112,4 +137,3 @@ class DragDrop {
         }
     }
 }
-exports.default = DragDrop;

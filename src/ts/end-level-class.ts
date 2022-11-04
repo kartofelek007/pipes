@@ -1,5 +1,5 @@
 import {Page} from "./page-class";
-import EventObserver from "./eventObserver";
+import {EventObserver} from "./eventObserver";
 
 type DOMType = {
     div: HTMLDivElement,

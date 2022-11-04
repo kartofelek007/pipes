@@ -1,4 +1,3 @@
-"use strict";
 /*
 {...tileOb, icon: "x", points: "", inactive: true, type: -1},
 {...tileOb, icon: " ", points: "", inactive: true, type: 0},
@@ -44,8 +43,7 @@
 
 {...tileOb, icon: "●", inactive: true, type: 30},
 */
-Object.defineProperty(exports, "__esModule", { value: true });
-const levels = [
+export const levels = [
     {
         pattern: [
             ["╔══╝▼"],
@@ -144,4 +142,3 @@ const levels = [
         missed: "┤┤┤┤┤┤┐┐┐┐┐┐┐┐┐┐┐┐┐┐┐┐┐┐────"
     },
 ];
-exports.default = levels;

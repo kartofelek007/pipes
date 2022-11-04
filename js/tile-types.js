@@ -1,12 +1,9 @@
-"use strict";
 //check - czy w danej petli zostal juz sprawdzony. uzywane po to by ktos nie zrobic zapetlonego spradzania
 //active - czy dany tile pasuje i moze leciec woda
 //icon - ikona z levelu
 //poinst - wezwy wyjscia uzywane przy spradzaniu czy dwa klocki sie lacza
 //inactive - czy dany klocek moze byc klikany
 //type - typ klocka - uzywane przy przelaczaniu danego klocka
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.typesMustActive = exports.typesWithPointBottom = exports.typesWithPointTop = exports.typesWithPointRight = exports.typesWithPointLeft = exports.tileTypes = void 0;
 const tileOb = {
     check: false,
     active: false
@@ -47,14 +44,9 @@ const tileTypes = [
     { ...tileOb, icon: "B", points: "", inactive: true, type: 31, types: [30, 31] },
     { ...tileOb, icon: "●", points: "", inactive: true, type: 40, types: [40] },
 ];
-exports.tileTypes = tileTypes;
 const typesWithPointLeft = tileTypes.filter(tile => tile.points && tile.points.includes("L")).map(tile => tile.type);
-exports.typesWithPointLeft = typesWithPointLeft;
 const typesWithPointRight = tileTypes.filter(tile => tile.points && tile.points.includes("R")).map(tile => tile.type);
-exports.typesWithPointRight = typesWithPointRight;
 const typesWithPointTop = tileTypes.filter(tile => tile.points && tile.points.includes("T")).map(tile => tile.type);
-exports.typesWithPointTop = typesWithPointTop;
 const typesWithPointBottom = tileTypes.filter(tile => tile.points && tile.points.includes("B")).map(tile => tile.type);
-exports.typesWithPointBottom = typesWithPointBottom;
 const typesMustActive = tileTypes.filter(tile => [16, 17, 18, 19, 20, 21, 22, 23].includes(tile.type)).map(tile => tile.type);
-exports.typesMustActive = typesMustActive;
+export { tileTypes, typesWithPointLeft, typesWithPointRight, typesWithPointTop, typesWithPointBottom, typesMustActive, };

@@ -1,14 +1,69 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const tile_types_1 = require("./tile-types");
-const eventObserver_1 = __importDefault(require("./eventObserver"));
-class Pipe {
+import { tileTypes } from "./tile-types";
+import { EventObserver } from "./eventObserver";
+export class Pipe {
     constructor(params) {
+        Object.defineProperty(this, "signals", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "_check", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "_icon", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "_type", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "_points", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "_pipeTypesGroup", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "_active", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "_inactive", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "_draggable", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "_DOM", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
         this.signals = {
-            onRotateEnd: new eventObserver_1.default()
+            onRotateEnd: new EventObserver()
         };
         this._check = false;
         this._icon = params.icon;
@@ -24,14 +79,14 @@ class Pipe {
         this.bindEvents();
     }
     _getPipeTypesGroup() {
-        const tile = tile_types_1.tileTypes.find(pipe => pipe.type === this._type);
+        const tile = tileTypes.find(pipe => pipe.type === this._type);
         if (tile !== undefined) {
             return tile.types;
         }
         return [];
     }
     _getPipePoints() {
-        const tile = tile_types_1.tileTypes.find(tile => tile.type === this._type);
+        const tile = tileTypes.find(tile => tile.type === this._type);
         if (tile !== undefined) {
             return tile.points;
         }
@@ -136,4 +191,3 @@ class Pipe {
         this._DOM.div.removeEventListener("click", this._clickOnTile);
     }
 }
-exports.default = Pipe;

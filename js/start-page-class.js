@@ -1,19 +1,25 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.StartPage = void 0;
-const page_class_1 = require("./page-class");
-const eventObserver_1 = __importDefault(require("./eventObserver"));
-class StartPage extends page_class_1.Page {
+import { Page } from "./page-class";
+import { EventObserver } from "./eventObserver";
+export class StartPage extends Page {
     constructor() {
         super();
+        Object.defineProperty(this, "_DOM", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "signals", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
         this._DOM = {
             div: document.createElement("div")
         };
         this.signals = {
-            onClick: new eventObserver_1.default()
+            onClick: new EventObserver()
         };
         this._render();
         this._bindEvents();
@@ -49,4 +55,3 @@ class StartPage extends page_class_1.Page {
         this._DOM.div.remove();
     }
 }
-exports.StartPage = StartPage;

@@ -1,4 +1,4 @@
-import EventObserver from "./eventObserver";
+import {EventObserver} from "./eventObserver";
 
 type SignalsType = {
     dragStart: EventObserver,
@@ -8,8 +8,7 @@ type SignalsType = {
     dragDrop: EventObserver,
 }
 
-
-export default class DragDrop {
+export class DragDrop {
     private _element: Node
     private _dropAreas: Array<Node>
     private _areaFrom: Node | null

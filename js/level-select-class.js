@@ -1,21 +1,33 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.LevelSelect = void 0;
-const page_class_1 = require("./page-class");
-const levels_1 = __importDefault(require("./levels"));
-const eventObserver_1 = __importDefault(require("./eventObserver"));
-class LevelSelect extends page_class_1.Page {
+import { Page } from "./page-class";
+import { levels } from "./levels";
+import { EventObserver } from "./eventObserver";
+export class LevelSelect extends Page {
     constructor() {
         super();
+        Object.defineProperty(this, "_DOM", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "signals", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "_levelUnlocked", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
         this._DOM = {
             div: document.createElement("div"),
             buttonsCnt: document.createElement("div"),
         };
         this.signals = {
-            onLevelSelect: new eventObserver_1.default(),
+            onLevelSelect: new EventObserver(),
         };
         this._levelUnlocked = [0]; //levele odblokowane
         this._render();
@@ -37,7 +49,7 @@ class LevelSelect extends page_class_1.Page {
     _renderButtons() {
         this._DOM.buttonsCnt.innerHTML = "";
         const fragment = new DocumentFragment();
-        levels_1.default.forEach((level, i) => {
+        levels.forEach((level, i) => {
             const button = document.createElement("button");
             button.classList.add("level-select-button");
             button.disabled = !this._levelUnlocked.includes(i);
@@ -74,4 +86,3 @@ class LevelSelect extends page_class_1.Page {
         return false;
     }
 }
-exports.LevelSelect = LevelSelect;

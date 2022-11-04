@@ -1,21 +1,88 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const pipe_class_1 = __importDefault(require("./pipe-class"));
-const levels_1 = __importDefault(require("./levels"));
-const tile_types_1 = require("./tile-types");
-const page_class_1 = require("./page-class");
-const eventObserver_1 = __importDefault(require("./eventObserver"));
-class Level extends page_class_1.Page {
+import { Pipe } from "./pipe-class";
+import { levels } from "./levels";
+import { tileTypes, typesMustActive, typesWithPointBottom, typesWithPointLeft, typesWithPointRight, typesWithPointTop } from "./tile-types";
+import { Page } from "./page-class";
+import { EventObserver } from "./eventObserver";
+export class Level extends Page {
     constructor(levelNr) {
         var _a;
         super();
+        Object.defineProperty(this, "_DOM", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "signals", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "_moves", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "_levelEnd", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        }); //zmienna przelacznik, by sie spradzanie nie odpalalo kilka razy
+        Object.defineProperty(this, "_startTime", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        }); //czas gry
+        Object.defineProperty(this, "_levelPattern", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "_missedPart", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "_level", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "_rowCount", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "_colCount", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "_startPoint", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        }); //początek levelu może być tylko jeden
+        Object.defineProperty(this, "_endPoints", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
         this.signals = {
-            onMove: new eventObserver_1.default(),
-            onLevelStart: new eventObserver_1.default(),
-            onLevelEnd: new eventObserver_1.default(),
+            onMove: new EventObserver(),
+            onLevelStart: new EventObserver(),
+            onLevelEnd: new EventObserver(),
         };
         this._DOM = {
             div: document.createElement("div"),
@@ -27,8 +94,10 @@ class Level extends page_class_1.Page {
         this._moves = 0;
         this._levelEnd = false; //zmienna przelacznik, by sie spradzanie nie odpalalo kilka razy
         this._startTime = new Date().getTime(); //czas gry
-        this._levelPattern = levels_1.default[levelNr].pattern.flat(Infinity);
-        this._missedPart = (_a = levels_1.default[levelNr]) === null || _a === void 0 ? void 0 : _a.missed;
+        //this._levelPattern = levels[levelNr].pattern.flat(Infinity);
+        const pattern = levels[levelNr].pattern;
+        this._levelPattern = [].concat(...pattern);
+        this._missedPart = (_a = levels[levelNr]) === null || _a === void 0 ? void 0 : _a.missed;
         this._level = this._parseLevelText();
         this._rowCount = this._level.length;
         this._colCount = this._level[0].length;
@@ -46,8 +115,8 @@ class Level extends page_class_1.Page {
                 missed[char]++;
             });
             for (let [key, val] of Object.entries(missed)) {
-                const ob = tile_types_1.tileTypes.find(ob => ob.icon === key);
-                const div = pipe_class_1.default.generateHTML(ob.active, ob.inactive, ob.type);
+                const ob = tileTypes.find(ob => ob.icon === key);
+                const div = Pipe.generateHTML(ob.active, ob.inactive, ob.type);
                 div.draggable = true;
                 div.dataset.inactive = `${true}`;
                 const divCnt = document.createElement("div");
@@ -95,12 +164,12 @@ class Level extends page_class_1.Page {
             let row = [];
             let x = 0;
             for (let letter of str) {
-                const tile = tile_types_1.tileTypes.find(tile => tile.icon === letter);
+                const tile = tileTypes.find(tile => tile.icon === letter);
                 if (!tile) {
                     throw Error("Zły tile w strukturze levelu");
                 }
                 else {
-                    const pipe = new pipe_class_1.default({ ...tile });
+                    const pipe = new Pipe({ ...tile });
                     pipe.signals.onRotateEnd.on(() => {
                         this.clickOnTile();
                     });
@@ -133,7 +202,7 @@ class Level extends page_class_1.Page {
         for (let y = 0; y < this._level.length; y++) {
             for (let x = 0; x < this._level[y].length; x++) {
                 const tileToCheck = this._level[y][x];
-                if (tile_types_1.typesMustActive.includes(tileToCheck.type)) {
+                if (typesMustActive.includes(tileToCheck.type)) {
                     tilesToActive++;
                     if (tileToCheck.active)
                         tilesActive++;
@@ -143,6 +212,10 @@ class Level extends page_class_1.Page {
         if (tilesActive >= tilesToActive) {
             this._levelEnd = true;
             const { days, hours, minutes, seconds } = this._getEndTime();
+            console.log({
+                days, hours, minutes, seconds
+            });
+            console.log("%cKONIEC", "background: gold; color: red;");
             setTimeout(() => {
                 this.signals.onLevelEnd.emit({
                     moves: this._moves,
@@ -195,28 +268,28 @@ class Level extends page_class_1.Page {
             //w lewo
             if (point === "L" && x > 0) {
                 const neighbor = this._level[y][x - 1];
-                if (!neighbor.check && tile_types_1.typesWithPointRight.includes(neighbor.type)) {
+                if (!neighbor.check && typesWithPointRight.includes(neighbor.type)) {
                     this.checkPipeConnection(x - 1, y);
                 }
             }
             //w prawo
             if (point === "R" && x < this._colCount - 1) {
                 const neighbor = this._level[y][x + 1];
-                if (!neighbor.check && tile_types_1.typesWithPointLeft.includes(neighbor.type)) {
+                if (!neighbor.check && typesWithPointLeft.includes(neighbor.type)) {
                     this.checkPipeConnection(x + 1, y);
                 }
             }
             //w gore
             if (point === "T" && y > 0) {
                 const neighbor = this._level[y - 1][x];
-                if (!neighbor.check && tile_types_1.typesWithPointBottom.includes(neighbor.type)) {
+                if (!neighbor.check && typesWithPointBottom.includes(neighbor.type)) {
                     this.checkPipeConnection(x, y - 1);
                 }
             }
             //dol
             if (point === "B" && y < this._rowCount - 1) {
                 const neighbor = this._level[y + 1][x];
-                if (!neighbor.check && tile_types_1.typesWithPointTop.includes(neighbor.type)) {
+                if (!neighbor.check && typesWithPointTop.includes(neighbor.type)) {
                     this.checkPipeConnection(x, y + 1);
                 }
             }
@@ -267,4 +340,3 @@ class Level extends page_class_1.Page {
         this._DOM.div.remove();
     }
 }
-exports.default = Level;

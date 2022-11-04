@@ -1,0 +1,55 @@
+.parts-cnt {
+	background: #fff;
+	padding: rem(5px) rem(60px) rem(20px);
+	overflow-y: auto;
+	scrollbar-width: thin; //firefox
+
+	&::-webkit-scrollbar {
+		width: 3px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: #fff;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: #000;
+	}
+
+	.parts-pipe-place {
+		aspect-ratio: 1 / 1;
+		padding: rem(20px);
+		border: 1px dashed rgba(0, 0, 0, 0.3);
+		margin-bottom: rem(20px);
+		position: relative;
+		background: #fff;
+	}
+
+	.parts-pipe-nr {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		transform: translate(-50%, 50%);
+		width: rem(30px);
+		height: rem(30px);
+		border: 2px solid #000;
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+		font-family: 'Love Ya Like A Sister', cursive;
+		font-size: rem(20px);
+		font-weight: bold;
+		background: #fff;
+		border-radius: 50%;
+	}
+
+	.parts-pipe-place .pipe {
+		background: #fff;
+		box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.5);
+	}
+
+	.parts-pipe-place .pipe.invisible {
+		opacity: 0;
+		pointer-events: none;
+	}
+}

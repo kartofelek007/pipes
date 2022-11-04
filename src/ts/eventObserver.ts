@@ -3,7 +3,7 @@ type EventObserverType = {
     subscribers: object
 }
 
-export default class EventObserver {
+export class EventObserver {
     private _id: number
     public subscribers: Record<string, Function>
 

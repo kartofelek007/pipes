@@ -1,7 +1,17 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-class EventObserver {
+export class EventObserver {
     constructor() {
+        Object.defineProperty(this, "_id", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "subscribers", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
         this._id = 0;
         this.subscribers = {};
     }
@@ -24,4 +34,3 @@ class EventObserver {
         }
     }
 }
-exports.default = EventObserver;

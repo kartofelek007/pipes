@@ -1,5 +1,5 @@
-import levels from "./levels";
-import EventObserver from "./eventObserver";
+import {levels} from "./levels";
+import {EventObserver} from "./eventObserver";
 
 type DOMType = {
     select: HTMLSelectElement,
@@ -28,7 +28,7 @@ export class Debug {
         this.render();
     }
 
-    render() : void {
+    render(): void {
         this.DOM.select = document.createElement("select")
         this.DOM.select.style.cssText = `
             position:absolute;

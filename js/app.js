@@ -1,26 +1,21 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-require("../scss/style.scss");
-const pipe_class_1 = __importDefault(require("./pipe-class"));
-const drag_drop_class_1 = __importDefault(require("./drag-drop-class"));
-const level_class_1 = __importDefault(require("./level-class"));
-const tile_types_1 = require("./tile-types");
-const level_select_class_1 = require("./level-select-class");
-const end_level_class_1 = require("./end-level-class");
-const _debug_class_1 = require("./_debug-class");
-const start_page_class_1 = require("./start-page-class");
-const levels_1 = __importDefault(require("./levels"));
+import "/src/scss/style.scss";
+import { Pipe } from "./pipe-class";
+import { DragDrop } from "./drag-drop-class";
+import { tileTypes } from "./tile-types";
+import { LevelSelect } from "./level-select-class";
+import { EndLevelPopup } from "./end-level-class";
+import { Level } from "./level-class";
+import { Debug } from "./_debug-class";
+import { StartPage } from "./start-page-class";
+import { levels } from "./levels";
 function addDebug(e) {
     if (e.key === "?") {
-        const debug = new _debug_class_1.Debug();
+        const debug = new Debug();
         debug.signals.onChangeValue.on((e) => {
             startLevel(e);
         });
         debug.signals.onButtonClick.on(() => {
-            lastUnlockLevel = levels_1.default.length - 1;
+            lastUnlockLevel = levels.length - 1;
             for (let i = 0; i <= lastUnlockLevel; i++) {
                 levelSelect.unlockLevel(i);
             }
@@ -34,7 +29,7 @@ let lastUnlockLevel = 0;
 function startLevel(levelNr) {
     if (level !== null)
         level.destructor();
-    level = new level_class_1.default(levelNr);
+    level = new Level(levelNr);
     level.signals.onLevelEnd.on(() => {
         endLevelPopup.show();
         if (lastUnlockLevel === levelNr) {
@@ -45,18 +40,18 @@ function startLevel(levelNr) {
     bindDrag();
     levelSelect.hide();
 }
-let levelSelect = new level_select_class_1.LevelSelect();
+let levelSelect = new LevelSelect();
 levelSelect.hide();
 levelSelect.signals.onLevelSelect.on((nr) => {
     levelSelect.hide();
     startLevel(nr);
 });
-let startPage = new start_page_class_1.StartPage();
+let startPage = new StartPage();
 startPage.signals.onClick.on(() => {
     startPage.destructor();
     levelSelect.show();
 });
-const endLevelPopup = new end_level_class_1.EndLevelPopup();
+const endLevelPopup = new EndLevelPopup();
 endLevelPopup.signals.onButtonClick.on(() => {
     endLevelPopup.hide();
     levelSelect.show();
@@ -65,7 +60,7 @@ function bindDrag() {
     const pipes = document.querySelectorAll(".parts-cnt .pipe");
     const areas = document.querySelectorAll(".pipe-cnt-place");
     pipes.forEach(pipe => {
-        const dd = new drag_drop_class_1.default(pipe, areas);
+        const dd = new DragDrop(pipe, areas);
         dd.signals.dragStart.on((obj) => {
             const dragElement = obj.dragElement;
             const fromDiv = dragElement.parentElement;
@@ -112,10 +107,10 @@ function bindDrag() {
             areaDrop.classList.remove("hovered");
             areaDrop.classList.add("pipe-cnt-place-not-empty");
             const { x, y } = areaDrop.dataset;
-            const tile = tile_types_1.tileTypes.find(tile => tile.type === +type);
+            const tile = tileTypes.find(tile => tile.type === +type);
             if (tile) {
                 const tileObj = { ...tile };
-                const pipe = new pipe_class_1.default(tileObj);
+                const pipe = new Pipe(tileObj);
                 pipe.signals.onRotateEnd.on(() => {
                     level.clickOnTile();
                 });
@@ -136,7 +131,7 @@ function bindDrag() {
     function bindElement(element) {
         const areas = document.querySelectorAll(".pipe-cnt-place, .trash");
         const trash = document.querySelector(".trash");
-        const dd = new drag_drop_class_1.default(element, areas);
+        const dd = new DragDrop(element, areas);
         dd.signals.dragStart.on((obj) => {
             const dragElement = obj.dragElement;
             setTimeout(() => {
@@ -175,10 +170,10 @@ function bindDrag() {
                     //zeruje element
                     {
                         const { x, y } = areaFrom.dataset;
-                        const tile = tile_types_1.tileTypes.find(tile => tile.type === 0);
+                        const tile = tileTypes.find(tile => tile.type === 0);
                         if (tile) {
                             const tileObj = { ...tile };
-                            const pipe = new pipe_class_1.default(tileObj);
+                            const pipe = new Pipe(tileObj);
                             pipe.signals.onRotateEnd.on(() => {
                                 level.clickOnTile();
                             });
@@ -207,10 +202,10 @@ function bindDrag() {
                     //zeruje element na miejscu z ktorego wyciagam
                     {
                         const { x, y } = areaFrom.dataset;
-                        const tile = tile_types_1.tileTypes.find(tile => tile.type === 0);
+                        const tile = tileTypes.find(tile => tile.type === 0);
                         if (tile) {
                             const tileObj = { ...tile };
-                            const pipe = new pipe_class_1.default(tileObj);
+                            const pipe = new Pipe(tileObj);
                             pipe.signals.onRotateEnd.on(() => {
                                 level.clickOnTile();
                             });
@@ -220,10 +215,10 @@ function bindDrag() {
                     //ustawiam na miejscu na ktore wrzucam
                     const { x, y } = areaDrop.dataset;
                     const type = dragElement === null || dragElement === void 0 ? void 0 : dragElement.dataset.type;
-                    const tile = tile_types_1.tileTypes.find(tile => tile.type === +type);
+                    const tile = tileTypes.find(tile => tile.type === +type);
                     if (tile) {
                         const tileObj = { ...tile };
-                        const pipe = new pipe_class_1.default(tileObj);
+                        const pipe = new Pipe(tileObj);
                         pipe.signals.onRotateEnd.on(() => {
                             level.clickOnTile();
                         });

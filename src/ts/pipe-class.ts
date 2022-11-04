@@ -1,5 +1,5 @@
 import {tileTypes, TileType, TilesTypesType} from "./tile-types";
-import EventObserver from "./eventObserver";
+import {EventObserver} from "./eventObserver";
 
 type DOMType = {
     div: HTMLDivElement,
@@ -9,7 +9,7 @@ type SignalsType = {
     onRotateEnd: EventObserver,
 }
 
-export default class Pipe {
+export class Pipe {
     public signals: SignalsType
     private _check: boolean
     private _icon: string
