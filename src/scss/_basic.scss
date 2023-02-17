@@ -14,7 +14,7 @@
 	position: absolute;
 	left: 0;
 	top: 0;
-	
+
 	.preloadText1 {
 		font-family: 'Amatic SC', cursive;
 	}
@@ -44,7 +44,7 @@ $images : "arrow.png",  "bg.png",  "block1.png",  "cursor-rotate.png",  "pipe1.p
 $bg : null;
 
 @for $i from 1 through list.length($images) {
-	$img : "url(../../images-assets/#{nth($images, $i)})";
+	$img : "url(/src/images/#{nth($images, $i)})";
 	$bg : list.append($bg, string.unquote($img), $separator: comma);
 }
 

@@ -1,16 +1,17 @@
 {
-  "name": "pipes",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "name": "test",
+  "version": "1.0.0",
+  "description": "",
+  "source": "src/index.html",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "deploy" : "node deploy.js"
+    "start": "parcel",
+    "build": "parcel build"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
-    "typescript": "^4.6.4",
-    "vite": "^3.2.0"
+    "@parcel/transformer-sass": "^2.8.3",
+    "parcel": "^2.8.3"
   }
 }
